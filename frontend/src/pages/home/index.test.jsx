@@ -19,7 +19,7 @@ describe('Home Component', () => {
         store = mockStore({});
     });
 
-    afterEach(()=>{
+    afterEach(() => {
         axios.post.mockClear();
     })
 
@@ -79,7 +79,7 @@ describe('Home Component', () => {
 
     it('handles form submission error (exception)', async () => {
         axios.post.mockRejectedValue("some error");
-    
+
         render(
             <Provider store={store}>
                 <MemoryRouter>
@@ -87,18 +87,23 @@ describe('Home Component', () => {
                 </MemoryRouter>
             </Provider>
         );
-    
+
         fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
         fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
         fireEvent.click(screen.getByText('Register'));
-    
+
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
         await waitFor(() => expect(screen.getByText('Error : "some error"')).toBeInTheDocument());
     });
 
     it(`doesn't send request while loading`, async () => {
-        axios.post.mockRejectedValue("some error");
-    
+        axios.post.mockImplementation(new Promise((r) => {
+            setTimeout(r({
+                data: { pk: 1, name: 'Test User', email: 'test@example.com' },
+                status: 200,
+            }), 50)
+        }));
+
         render(
             <Provider store={store}>
                 <MemoryRouter>
@@ -106,15 +111,14 @@ describe('Home Component', () => {
                 </MemoryRouter>
             </Provider>
         );
-    
+
         fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
         fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
         fireEvent.click(screen.getByText('Register'));
         fireEvent.click(screen.getByText('Register'));
-        fireEvent.click(screen.getByText('Register'));
-    
+
+
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
-        await waitFor(() => expect(screen.getByText('Error : "some error"')).toBeInTheDocument());
         expect(axios.post).toHaveBeenCalledTimes(1);
     });
 });
