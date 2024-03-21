@@ -7,7 +7,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./styles.css";
 
-export function Profile() {
+export default function Profile() {
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState(false);
@@ -20,7 +20,7 @@ export function Profile() {
     useEffect(() => {
         if (!user) {
             setLoading(true);
-            axios.get(`${api.root}/users/${userId}`)
+            axios.get(`${api.root}/users/${userId}/`)
                 .then((resp) => dispatch(addUser(resp.data)))
                 .catch(() => setError("User not found"))
                 .finally(() => setLoading(false))

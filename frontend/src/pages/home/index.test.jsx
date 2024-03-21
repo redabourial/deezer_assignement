@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import { Home,validateStatus } from './index';
+import Home, { validateStatus } from './index';
 import { addUser } from "/src/redux/usersSlice";
 
 jest.mock('axios');

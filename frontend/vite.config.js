@@ -3,10 +3,17 @@ import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ['antd'],
+  },
   plugins: [react()],
   define: {
-    api: {root:'/api'},
-  }, 
+    api: { root: '/api' },
+  },
+  build: {
+    sourcemap: true,
+    minify: "terser",
+  },
   server: {
     host: true,
     port: 80,

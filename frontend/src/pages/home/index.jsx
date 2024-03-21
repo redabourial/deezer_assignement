@@ -12,7 +12,7 @@ import './styles.css';
 
 export const validateStatus = s => s < 500;
 
-export function Home({ loadingState = false }) {
+export default function Home({ loadingState = false }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();

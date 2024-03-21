@@ -6,7 +6,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { addUser } from '/src/redux/usersSlice';
-import { Profile } from './index';
+import Profile from './index';
 
 jest.mock('axios');
 
@@ -72,7 +72,7 @@ describe('Profile Component', () => {
         );
 
         await waitFor(() => {
-            expect(axios.get).toHaveBeenCalledWith('/api/users/2');
+            expect(axios.get).toHaveBeenCalledWith('/api/users/2/');
             expect(store.getActions()).toContainEqual(addUser({ id: 2, name: 'Another User', email: 'another@example.com' }));
         });
     });
