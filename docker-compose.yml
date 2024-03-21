@@ -32,7 +32,6 @@ services:
     cpus: 1
   
   mysql:
-    user: "${UID}:${GID}"
     container_name: mysql
     image: mysql
     ports:
