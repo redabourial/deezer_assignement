@@ -1,0 +1,48 @@
+services:
+  django:
+    user: "${UID}:${GID}"
+    container_name: django
+    build:
+      context: ./backend
+    ports:
+      - 127.0.0.1:8000:8000
+    volumes:
+      - ./backend:/usr/src/app
+    environment:
+      - DJANGO_DEBUG=true
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=mysql
+    command: --reload
+    mem_limit: 512M
+    cpus: 1
+
+  vite:
+    user: "${UID}:${GID}"
+    container_name: vite
+    build:
+      context: ./frontend/
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:80:5173"
+    volumes:
+      - ./frontend/:/usr/src/app
+    mem_limit: 512M
+    cpus: 1
+  
+  mysql:
+    user: "${UID}:${GID}"
+    container_name: mysql
+    image: mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    mem_limit: 512M
+    cpus: 1

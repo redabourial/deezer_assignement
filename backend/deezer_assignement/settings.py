@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
     'users',
@@ -79,9 +78,12 @@ WSGI_APPLICATION = 'deezer_assignement.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': os.getenv('MYSQL_DATABASE'),
+        'USER': os.getenv('MYSQL_USER'),
+        'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+        'HOST': os.getenv('MARIADB_HOST'),
+    },
 }
 
 
@@ -126,8 +128,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "*"
-    if DEBUG
-    else os.environ.get('DJANGO_HOST'),
-]
+CORS_ALLOWED_ORIGINS = [] if DEBUG else [f"https://os.environ.get('DJANGO_HOST')"]
+ALLOWED_HOSTS = [] if DEBUG else [os.environ.get('DJANGO_HOST')]
