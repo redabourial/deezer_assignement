@@ -4,8 +4,11 @@ from django.views.static import serve
 from django.conf import settings
 
 urlpatterns = [
-    path('api/', include('users.urls')),
+    re_path(r'^api/', include('users.urls')),
 ]
 
-urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-urlpatterns += [re_path(r'^.*/$', serve, {'document_root': settings.STATIC_ROOT, 'path': 'index.html'})]
+# Serve static content
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT + "/assets/")
+
+# Catch-all for all urls except those starting with api/
+urlpatterns += [re_path(r'^(?!api/).*', serve, {'document_root': settings.STATIC_ROOT, 'path': 'index.html'})]

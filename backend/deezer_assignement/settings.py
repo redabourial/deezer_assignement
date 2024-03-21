@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k2y%+_n7n0!z+-$n27-jnxigy5_kvm%7_ftv6wr#vyf!0j^%#7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG') == 'true'
+DEBUG = os.getenv('DJANGO_DEBUG') == 'true'
 
 
 # Application definition
@@ -129,5 +129,5 @@ STATIC_ROOT = "./static/"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [] if DEBUG else [f"https://os.environ.get('DJANGO_HOST')"]
-ALLOWED_HOSTS = [] if DEBUG else [os.environ.get('DJANGO_HOST')]
+CORS_ALLOWED_ORIGINS = [] if DEBUG else os.getenv('DJANGO_CORS_ALLOWED_ORIGINS').split(',')
+ALLOWED_HOSTS = [] if DEBUG else os.getenv('DJANGO_ALLOWED_HOSTS').split(',')
