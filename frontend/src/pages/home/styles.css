@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form {
+    width: fit-content;
+    min-width: 50vw;
+}
+
+.register-form-button {
+    width: 100%;
+}
