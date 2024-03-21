@@ -5,7 +5,6 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     fib   = models.IntegerField()
 
-
     class Meta:
         indexes = [
             models.Index(fields=['email'])

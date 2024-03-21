@@ -6,8 +6,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    port: 80,
     define: {
-      api_root: 'http://django:8000/api/',
+      api_root: '/api/',
     },
     proxy: {
       '/api': {
