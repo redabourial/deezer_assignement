@@ -1,0 +1,19 @@
+[run]
+omit =
+    */management/commands/*
+    */tests/**
+    */migrations/**
+    */config/**
+    */manage.py
+
+[report]
+skip_covered = True
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+
+
+# validate the coverate of each python app
+# use as follows: <app name> = <float between 0 and 1>
+[validation]
+users = 1
