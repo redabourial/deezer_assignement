@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { addUser } from "/src/redux/usersSlice";
-import { useNavigate } from 'react-router-dom';
-
-import { MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Row, Alert } from 'antd';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import axios from "axios";
 import { flatten } from "lodash";
+
+import { MailOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Form, Input, Row, Alert } from 'antd';
+
+import { addUser } from "/src/redux/usersSlice";
 import './styles.css';
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const validateStatus = s => s < 500;
 
 export default function Home({ loadingState = false }) {
@@ -96,3 +99,7 @@ export default function Home({ loadingState = false }) {
     );
 
 }
+
+Home.propTypes = {
+    loadingState: PropTypes.bool,
+};

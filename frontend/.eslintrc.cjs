@@ -7,7 +7,17 @@ module.exports = {
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  globals: {
+     api: 'readonly',
+  },
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    'coverage/*',
+    'babel.config.js',
+    'jest.config.js',
+    'setupTests.js',
+  ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
@@ -17,5 +27,22 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "no-unused-vars": [
+      "error",
+      {
+        "varsIgnorePattern": "React"
+      }
+    ],
   },
+  overrides: [
+    {
+      files: [
+        "**/*.test.js",
+        "**/*.test.jsx"
+      ],
+      env: {
+        jest: true
+      }
+    },
+  ],
 }

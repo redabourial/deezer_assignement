@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Row, Descriptions } from 'antd';
-import { addUser } from "/src/redux/usersSlice";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 
 import axios from "axios";
-import { useParams } from "react-router-dom";
+
+import { Descriptions } from 'antd';
+
+import { addUser } from "/src/redux/usersSlice";
 import "./styles.css";
 
 export default function Profile() {
@@ -25,6 +27,7 @@ export default function Profile() {
                 .catch(() => setError("User not found"))
                 .finally(() => setLoading(false))
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     if (error) {
@@ -35,7 +38,7 @@ export default function Profile() {
         return <>Loading...</>
     }
 
-    if(!user){
+    if (!user) {
         return <>{error}</>
     }
 

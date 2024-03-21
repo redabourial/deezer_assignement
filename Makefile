@@ -11,5 +11,15 @@ backend_lint:
 	docker exec -it django black --check .
 
 frontend_lint:
+	docker exec -it vite npm lint
 
 lint: backend_lint frontend_lint
+
+
+backend_lint_fix:
+	docker exec -it django black .
+
+frontend_lint_fix:
+	docker exec -it vite npm lint
+
+lint_fix: backend_lint_fix frontend_lint_fix
