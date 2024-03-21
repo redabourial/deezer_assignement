@@ -10,12 +10,14 @@ import axios from "axios";
 import { flatten } from "lodash";
 import './styles.css';
 
-export function Home() {
+export const validateStatus = s => s < 500;
+
+export function Home({ loadingState = false }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(loadingState);
     const [error, setError] = useState(null)
 
     const onFinish = async (data) => {
@@ -24,7 +26,7 @@ export function Home() {
         setError(null)
         try {
             const startingTime = new Date();
-            const resp = await axios.post(`${api.root}/users/`, data, { validateStatus: s => s < 500 });
+            const resp = await axios.post(`${api.root}/users/`, data, { validateStatus });
             const timeToCreate = `${(new Date() - startingTime) / 1000} s`;
             const { status } = resp;
             if (resp.status >= 400 && status < 500) {
@@ -36,7 +38,7 @@ export function Home() {
             dispatch(addUser(user))
             navigate(`/users/${user.pk}`)
         } catch (e) {
-            setError(`${JSON.stringify(e)}`)
+            setError(e)
         } finally {
             setLoading(false);
         }

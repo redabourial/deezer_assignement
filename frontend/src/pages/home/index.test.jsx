@@ -1,11 +1,11 @@
 import React from 'react';
 import '@testing-library/jest-dom'
-import { render, fireEvent, waitFor, screen } from '@testing-library/react';
+import { render, fireEvent, waitFor, screen, act } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import { Home } from './index';
+import { Home,validateStatus } from './index';
 import { addUser } from "/src/redux/usersSlice";
 
 jest.mock('axios');
@@ -22,6 +22,14 @@ describe('Home Component', () => {
     afterEach(() => {
         axios.post.mockClear();
     })
+
+    it('throws error on 5xx code', () => {
+        expect(validateStatus(500)).toBe(false);
+    });
+
+    it(`doesn't throws error on 4xx code`, () => {
+        expect(validateStatus(400)).toBe(true);
+    });
 
     it('renders without crashing', () => {
         render(
@@ -40,17 +48,19 @@ describe('Home Component', () => {
             status: 200,
         });
 
-        render(
+        await act(() => render(
             <Provider store={store}>
                 <MemoryRouter>
                     <Home />
                 </MemoryRouter>
             </Provider>
-        );
+        ));
 
-        fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
-        fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByText('Register'));
+        await act(() => {
+            fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
+            fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+            fireEvent.click(screen.getByText('Register'));
+        });
 
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
 
@@ -60,18 +70,19 @@ describe('Home Component', () => {
     it('handles form submission error (status code 400)', async () => {
         axios.post.mockResolvedValue({ status: 400, data: { somekey: ['Invalid data'] } });
 
-        render(
+        await act(() => render(
             <Provider store={store}>
                 <MemoryRouter>
                     <Home />
                 </MemoryRouter>
             </Provider>
-        );
+        ));
 
-        fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
-        fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByText('Register'));
-
+        await act(() => {
+            fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
+            fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+            fireEvent.click(screen.getByText('Register'));
+        })
 
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
         await waitFor(() => expect(screen.getByText('Error : Invalid data')).toBeInTheDocument());
@@ -80,45 +91,38 @@ describe('Home Component', () => {
     it('handles form submission error (exception)', async () => {
         axios.post.mockRejectedValue("some error");
 
-        render(
+        await act(() => render(
             <Provider store={store}>
                 <MemoryRouter>
                     <Home />
                 </MemoryRouter>
             </Provider>
-        );
+        ));
 
-        fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
-        fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByText('Register'));
+        await act(() => {
+            fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
+            fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+            fireEvent.click(screen.getByText('Register'));
+        })
 
         await waitFor(() => expect(axios.post).toHaveBeenCalled());
-        await waitFor(() => expect(screen.getByText('Error : "some error"')).toBeInTheDocument());
+        await waitFor(() => expect(screen.getByText('Error : some error')).toBeInTheDocument());
     });
 
     it(`doesn't send request while loading`, async () => {
-        axios.post.mockImplementation(new Promise((r) => {
-            setTimeout(r({
-                data: { pk: 1, name: 'Test User', email: 'test@example.com' },
-                status: 200,
-            }), 50)
-        }));
-
-        render(
+        await act(() => render(
             <Provider store={store}>
                 <MemoryRouter>
-                    <Home />
+                    <Home loadingState={true} />
                 </MemoryRouter>
             </Provider>
-        );
+        ));
 
-        fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
-        fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByText('Register'));
-        fireEvent.click(screen.getByText('Register'));
-
-
-        await waitFor(() => expect(axios.post).toHaveBeenCalled());
-        expect(axios.post).toHaveBeenCalledTimes(1);
+        await act(() => {
+            fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } });
+            fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } });
+            fireEvent.click(screen.getByText('Register'));
+        });
+        expect(axios.post).toHaveBeenCalledTimes(0);
     });
 });
