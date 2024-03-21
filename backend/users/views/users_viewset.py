@@ -5,8 +5,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..models import User
-from ..serializers import UserSerializer
+from users.models import User
+from users.serializers import UserSerializer
 
 def fibonacci(n):
     # Start with a state corresponding to fib(50)

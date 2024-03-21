@@ -1,1 +1,1 @@
-from .users_view_set import UsersViewSet
+from .users_viewset import UsersViewSet
