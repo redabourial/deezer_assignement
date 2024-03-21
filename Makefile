@@ -6,3 +6,10 @@ frontend_coverage:
 	docker exec -it vite npx jest 
 
 coverage: backend_coverage frontend_coverage
+
+backend_lint:
+	docker exec -it django black --check .
+
+frontend_lint:
+
+lint: backend_lint frontend_lint
