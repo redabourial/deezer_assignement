@@ -3,3 +3,5 @@
 /**/.pyc
 mysql/
 coverage/
+backend/static/assets/*
+backend/static/index.html

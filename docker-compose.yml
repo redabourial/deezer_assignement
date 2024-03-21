@@ -28,9 +28,9 @@ services:
       - "127.0.0.1:80:80"
     volumes:
       - ./frontend/:/usr/src/app
-    mem_limit: 512M
+    mem_limit: 2G
     cpus: 1
-  
+
   mysql:
     container_name: mysql
     image: mysql
