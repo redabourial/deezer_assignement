@@ -7,5 +7,5 @@ export const createUser = (user) => {
 }
 
 export const getUser = (userId) => {
-  return axios.get(`${api.root}/users/${userId}/`, { validateStatus })
+  return axios.get(`${api.root}/users/${userId}/`)
 }

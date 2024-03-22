@@ -58,7 +58,7 @@ export default function Home() {
             {
               error
                 ? <Alert
-                  message={`Error : ${error}`}
+                  message={error}
                   type="error"
                   className="errorMsg"
                 />

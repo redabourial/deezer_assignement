@@ -3,60 +3,64 @@ import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router-dom'
 
 import '@testing-library/jest-dom'
-import { addUser } from '/src/redux/usersSlice'
+import { useNavigate } from 'react-router-dom';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import axios from 'axios'
+import { thunk } from 'redux-thunk';
 import configureStore from 'redux-mock-store'
 
-import Home, { validateStatus } from './index'
+
+import Home from './index'
 
 jest.mock('axios')
-
-const mockStore = configureStore()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: jest.fn(),
+}));
+const mockStore = configureStore([thunk]);
 
 describe('Home Component', () => {
   let store
-
+  let navigate
   beforeEach(() => {
-    store = mockStore({})
+    store = mockStore({
+      users: {
+        data: {},
+        error: null,
+        loading: false,
+      }
+    })
+    navigate = jest.fn();
+    useNavigate.mockReturnValue(navigate);
   })
 
   afterEach(() => {
-    axios.post.mockClear()
-  })
-
-  it('throws error on 5xx code', () => {
-    expect(validateStatus(500)).toBe(false)
-  })
-
-  it('doesn\'t throws error on 4xx code', () => {
-    expect(validateStatus(400)).toBe(true)
+    jest.clearAllMocks()
   })
 
   it('renders without crashing', () => {
     render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Home />
-          </MemoryRouter>
-        </Provider>
+      <Provider store={store}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </Provider>
     )
     expect(screen.getByText('Register')).toBeInTheDocument()
   })
 
   it('handles form submission', async () => {
     axios.post.mockResolvedValue({
-      data: { pk: 1, name: 'Test User', email: 'test@example.com' },
+      data: { pk: 42, name: 'Test User', email: 'test@example.com' },
       status: 200
     })
-
-    await act(() => render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Home />
-          </MemoryRouter>
-        </Provider>
-    ))
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </Provider>
+    )
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } })
@@ -65,20 +69,61 @@ describe('Home Component', () => {
     })
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled())
-
-    expect(store.getActions()).toContainEqual(addUser({ pk: 1, name: 'Test User', email: 'test@example.com', 'Time to create (frontend)': '0 s' }))
+    expect(store.getActions()).toMatchObject([
+      {
+        meta: {
+          arg: {
+            email: 'test@example.com',
+            name: 'Test User'
+          },
+          requestId: expect.any(String),
+          requestStatus: 'pending'
+        },
+        payload: undefined,
+        type: 'users/createUser/pending'
+      },
+      {
+        meta: {
+          arg: {
+            email: 'test@example.com',
+            name: 'Test User'
+          },
+          requestId: expect.any(String),
+          requestStatus: 'fulfilled'
+        },
+        payload: {
+          email: 'test@example.com',
+          name: 'Test User',
+          pk: 42
+        },
+        type: 'users/createUser/fulfilled'
+      }
+    ]);
+    expect(navigate).toHaveBeenCalledWith('/users/42');
+    expect(navigate).toHaveBeenCalledTimes(1);
+    expect(axios.post).toHaveBeenCalledWith(
+      "/api/users/",
+      {
+        "email": "test@example.com",
+        "name": "Test User"
+      },
+      {
+        "validateStatus": expect.any(Function),
+      }
+    )
+    expect(axios.post).toHaveBeenCalledTimes(1);
   })
 
   it('handles form submission error (status code 400)', async () => {
     axios.post.mockResolvedValue({ status: 400, data: { somekey: ['Invalid data'] } })
 
-    await act(() => render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Home />
-          </MemoryRouter>
-        </Provider>
-    ))
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </Provider>
+    )
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } })
@@ -87,19 +132,71 @@ describe('Home Component', () => {
     })
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled())
-    await waitFor(() => expect(screen.getByText('Error : Invalid data')).toBeInTheDocument())
+    expect(store.getActions()).toMatchObject([
+      {
+        meta: {
+          arg: {
+            email: 'test@example.com',
+            name: 'Test User'
+          },
+          requestId: expect.any(String),
+          requestStatus: 'pending'
+        },
+        payload: undefined,
+        type: 'users/createUser/pending'
+      },
+      {
+        meta: {
+          arg: {
+            email: 'test@example.com',
+            name: 'Test User'
+          },
+          requestId: expect.any(String),
+          requestStatus: 'rejected'
+        },
+        payload: undefined,
+        error: {
+          message: 'Invalid data'
+        },
+        type: 'users/createUser/rejected'
+      },
+    ]);
   })
 
-  it('handles form submission error (exception)', async () => {
-    axios.post.mockRejectedValue('some error')
+  it('Displays errors', async () => {
+    store = mockStore({
+      users: {
+        data: {},
+        error: "invalid something",
+        loading: false,
+      }
+    })
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </Provider>
+    )
+    expect(screen.getByText('invalid something')).toBeInTheDocument()
+  })
 
-    await act(() => render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Home />
-          </MemoryRouter>
-        </Provider>
-    ))
+  it('Doesn\'t do anything when loading', async () => {
+    store = mockStore({
+      users: {
+        data: {},
+        error: null,
+        loading: true,
+      }
+    })
+    render(
+      <Provider store={store}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </Provider>
+    )
+
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } })
@@ -107,24 +204,9 @@ describe('Home Component', () => {
       fireEvent.click(screen.getByText('Register'))
     })
 
-    await waitFor(() => expect(axios.post).toHaveBeenCalled())
-    await waitFor(() => expect(screen.getByText('Error : some error')).toBeInTheDocument())
+    expect(store.getActions()).toMatchObject([]);
+    expect(navigate).toHaveBeenCalledTimes(0);
+    expect(axios.post).toHaveBeenCalledTimes(0);
   })
 
-  it('doesn\'t send request while loading', async () => {
-    await act(() => render(
-        <Provider store={store}>
-          <MemoryRouter>
-            <Home loadingState={true} />
-          </MemoryRouter>
-        </Provider>
-    ))
-
-    await act(() => {
-      fireEvent.change(screen.getByPlaceholderText('Name'), { target: { value: 'Test User' } })
-      fireEvent.change(screen.getByPlaceholderText('Email'), { target: { value: 'test@example.com' } })
-      fireEvent.click(screen.getByText('Register'))
-    })
-    expect(axios.post).toHaveBeenCalledTimes(0)
-  })
 })
