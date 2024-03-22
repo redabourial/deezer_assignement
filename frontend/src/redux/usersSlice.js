@@ -66,6 +66,4 @@ export const usersSlice = createSlice({
   }
 })
 
-export const { addUser, setError } = usersSlice.actions
-
 export default usersSlice.reducer
