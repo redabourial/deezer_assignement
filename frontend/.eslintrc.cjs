@@ -37,6 +37,9 @@ module.exports = {
     "simple-import-sort/imports": "error",
     "simple-import-sort/exports": "error",
     "import/no-absolute-path": "off",
+    "no-multiple-empty-lines": "error",
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", "always"],
   },
   overrides: [
     {

@@ -1,26 +1,26 @@
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react';
+import { defineConfig, } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   optimizeDeps: {
-    include: ['antd']
+    include: ['antd',],
   },
-  plugins: [react()],
+  plugins: [react(),],
   define: {
-    api: { root: '/api' }
+    api: { root: '/api', },
   },
   build: {
     sourcemap: true,
-    minify: 'terser'
+    minify: 'terser',
   },
   server: {
     host: true,
     port: 80,
     proxy: {
       '/api/': {
-        target: 'http://django:8000/'
-      }
-    }
-  }
-})
+        target: 'http://django:8000/',
+      },
+    },
+  },
+},);

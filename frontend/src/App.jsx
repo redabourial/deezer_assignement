@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import React, { Suspense, } from 'react';
+import { BrowserRouter, Route, Routes, } from 'react-router-dom';
 
-const Home = React.lazy(() => import('./pages/home'))
-const Profile = React.lazy(() => import('./pages/profile'))
+const Home = React.lazy(() => import('./pages/home'),);
+const Profile = React.lazy(() => import('./pages/profile'),);
 
 function App () {
   return (
@@ -14,7 +14,7 @@ function App () {
         </Routes>
       </Suspense>
     </BrowserRouter>
-  )
+  );
 }
 
-export default App
+export default App;
