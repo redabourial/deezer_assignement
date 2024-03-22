@@ -14,7 +14,7 @@ export default function Home () {
   const dispatch = useDispatch()
 
   const [error, loading] = useSelector(({ users }) => [users.error, users.loading])
-  const onFinish = async (data) => {
+  const onFinish = (data) => {
     if (loading) return
     dispatch(registerUser(data))
       .unwrap()
