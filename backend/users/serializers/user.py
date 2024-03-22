@@ -6,6 +6,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("pk", "name", "email", "fib")
+        fields = ("pk", "name", "email", "fib","time_to_compute_fib")
 
     fib = serializers.IntegerField(required=False)
+    time_to_compute_fib = serializers.FloatField(required=False)

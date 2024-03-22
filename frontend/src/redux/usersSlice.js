@@ -5,15 +5,12 @@ import { flatten } from 'lodash'
 export const registerUser = createAsyncThunk(
   'users/createUser',
   async (user) => {
-    const startingTime = new Date()
     const resp = await createUser(user)
-    const timeToCreate = `${(new Date() - startingTime) / 1000} s`
     if (resp.status >= 400) {
       const err = flatten(Object.values(resp.data))
       throw new Error(err)
     }
-    const newUser = { ...resp.data, 'Time to create (frontend)': timeToCreate }
-    return newUser
+    return resp.data;
   }
 )
 

@@ -1,1 +1,1 @@
-from .users_viewset import UsersViewSet
+from .users_viewset import UserListCreateAPIView, UserRetrieveAPIView
