@@ -5,6 +5,7 @@ from rest_framework.test import APIClient
 from users.models import User
 from users.serializers import UserSerializer
 
+
 class UsersViewSetTestCase(TestCase):
 
     def setUp(self):

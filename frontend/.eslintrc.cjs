@@ -34,7 +34,7 @@ module.exports = {
     "no-unused-vars": [
       "error",
       {
-        "varsIgnorePattern": "React",
+        "varsIgnorePattern": "React|_",
       }
     ],
     "prettier/prettier": "error",
