@@ -22,6 +22,32 @@ export const fetchUser = createAsyncThunk("users/fetchUser", async (userId) => {
   return resp.data;
 });
 
+export const extraReducers = (builder) => builder
+  .addCase(registerUser.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+  .addCase(registerUser.fulfilled, (state, { payload }) => {
+    state.loading = false;
+    state.data[payload.pk] = payload;
+  })
+  .addCase(registerUser.rejected, (state, { error }) => {
+    state.loading = false;
+    state.error = error.message;
+  })
+  .addCase(fetchUser.pending, (state) => {
+    state.error = null;
+    state.loading = true;
+  })
+  .addCase(fetchUser.fulfilled, (state, { payload }) => {
+    state.loading = false;
+    state.data[payload.pk] = payload;
+  })
+  .addCase(fetchUser.rejected, (state, { error }) => {
+    state.loading = false;
+    state.error = error.message;
+  });
+
 export const usersSlice = createSlice({
   name: "users",
   initialState: {
@@ -29,33 +55,7 @@ export const usersSlice = createSlice({
     loading: false,
     error: null,
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(registerUser.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(registerUser.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.data[payload.pk] = payload;
-      })
-      .addCase(registerUser.rejected, (state, { error }) => {
-        state.loading = false;
-        state.error = error.message;
-      })
-      .addCase(fetchUser.pending, (state) => {
-        state.error = null;
-        state.loading = true;
-      })
-      .addCase(fetchUser.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.data[payload.pk] = payload;
-      })
-      .addCase(fetchUser.rejected, (state, { error }) => {
-        state.loading = false;
-        state.error = error.message;
-      });
-  },
+  extraReducers,
 });
 
 export default usersSlice.reducer;
