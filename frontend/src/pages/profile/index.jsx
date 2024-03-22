@@ -8,12 +8,14 @@ import { fetchUser } from '/src/redux/usersSlice'
 
 import './styles.css'
 
-export default function Profile () {
+export default function Profile() {
   const dispatch = useDispatch()
 
   const { userId } = useParams()
 
-  const [user, error, loading] = useSelector(({ users }) => [users.data[userId], users.error, users.loading])
+  const user = useSelector(({ users }) => users.data[userId])
+  const error = useSelector(({ users }) => users.error)
+  const loading = useSelector(({ users }) => users.loading)
 
   useEffect(() => {
     if (!user && !loading) {
