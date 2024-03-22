@@ -38,6 +38,12 @@ module.exports = {
       }
     ],
     "prettier/prettier": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "import/no-absolute-path": "off",
+    "no-multiple-empty-lines": "error",
+    "semi": ["error", "always"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
   },
   overrides: [
     {

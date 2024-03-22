@@ -55,7 +55,11 @@ describe("Home Component", () => {
 
   it("handles form submission", async () => {
     axios.post.mockResolvedValue({
-      data: { pk: 42, name: "Test User", email: "test@example.com" },
+      data: {
+        pk: 42,
+        name: "Test User",
+        email: "test@example.com",
+      },
       status: 200,
     });
     render(
@@ -68,10 +72,14 @@ describe("Home Component", () => {
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText("Name"), {
-        target: { value: "Test User" },
+        target: {
+          value: "Test User",
+        },
       });
       fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@example.com" },
+        target: {
+          value: "test@example.com",
+        },
       });
       fireEvent.click(screen.getByText("Register"));
     });
@@ -125,7 +133,9 @@ describe("Home Component", () => {
   it("handles form submission error (status code 400)", async () => {
     axios.post.mockResolvedValue({
       status: 400,
-      data: { somekey: ["Invalid data"] },
+      data: {
+        somekey: ["Invalid data"],
+      },
     });
 
     render(
@@ -138,10 +148,14 @@ describe("Home Component", () => {
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText("Name"), {
-        target: { value: "Test User" },
+        target: {
+          value: "Test User",
+        },
       });
       fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@example.com" },
+        target: {
+          value: "test@example.com",
+        },
       });
       fireEvent.click(screen.getByText("Register"));
     });
@@ -214,10 +228,14 @@ describe("Home Component", () => {
 
     await act(() => {
       fireEvent.change(screen.getByPlaceholderText("Name"), {
-        target: { value: "Test User" },
+        target: {
+          value: "Test User",
+        },
       });
       fireEvent.change(screen.getByPlaceholderText("Email"), {
-        target: { value: "test@example.com" },
+        target: {
+          value: "test@example.com",
+        },
       });
       fireEvent.click(screen.getByText("Register"));
     });

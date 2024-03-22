@@ -76,7 +76,11 @@ describe("Profile Component", () => {
     await waitFor(() => {
       expect(axios.get).toHaveBeenCalledWith("/api/users/2/");
       expect(store.getActions()).toContainEqual(
-        addUser({ id: 2, name: "Another User", email: "another@example.com" }),
+        addUser({
+          id: 2,
+          name: "Another User",
+          email: "another@example.com",
+        }),
       );
     });
   });
