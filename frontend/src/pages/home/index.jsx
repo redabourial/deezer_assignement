@@ -9,11 +9,13 @@ import { MailOutlined, UserOutlined } from '@ant-design/icons'
 
 import './styles.css'
 
-export default function Home () {
+export default function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [error, loading] = useSelector(({ users }) => [users.error, users.loading])
+  const error = useSelector(({ users }) => users.error)
+  const loading = useSelector(({ users }) => users.loading)
+
   const onFinish = (data) => {
     if (loading) return
     dispatch(registerUser(data))
@@ -54,17 +56,17 @@ export default function Home () {
               <Input prefix={<MailOutlined />} placeholder="Email" />
             </Form.Item>
             {
-                            error
-                              ? <Alert
-                                  message={`Error : ${error}`}
-                                  type="error"
-                                  className="errorMsg"
-                                />
-                              : null
+              error
+                ? <Alert
+                  message={`Error : ${error}`}
+                  type="error"
+                  className="errorMsg"
+                />
+                : null
             }
             <Form.Item>
               <Button type="primary" htmlType="submit" className="register-form-button">
-                                Register
+                Register
               </Button>
             </Form.Item>
           </Form>
