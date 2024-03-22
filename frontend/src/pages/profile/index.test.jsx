@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import "@testing-library/jest-dom";
-import { addUser } from "/src/redux/usersSlice";
 import { render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import configureStore from "redux-mock-store";
@@ -12,16 +11,19 @@ import Profile from "./index";
 
 jest.mock("axios");
 
+import { thunk } from "redux-thunk";
+
+const mockStore = configureStore([thunk]);
+
 describe("Profile Component", () => {
-  const mockStore = configureStore([]);
   let store;
 
   beforeEach(() => {
     store = mockStore({
       users: {
         data: {
-          1: {
-            id: 1,
+          57: {
+            pk: 57,
             name: "Test User",
             email: "test@example.com",
           },
@@ -37,7 +39,7 @@ describe("Profile Component", () => {
   it("renders user profile information", async () => {
     render(
       <Provider store={store}>
-        <MemoryRouter initialEntries={["/users/1"]}>
+        <MemoryRouter initialEntries={["/users/57"]}>
           <Routes>
             <Route path="/users/:userId" element={<Profile />} />
           </Routes>
@@ -57,7 +59,7 @@ describe("Profile Component", () => {
   it("fetches user data from API if user does not exist in store", async () => {
     axios.get.mockResolvedValueOnce({
       data: {
-        id: 2,
+        pk: 2,
         name: "Another User",
         email: "another@example.com",
       },
@@ -73,20 +75,42 @@ describe("Profile Component", () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      expect(axios.get).toHaveBeenCalledWith("/api/users/2/");
-      expect(store.getActions()).toContainEqual(
-        addUser({
-          id: 2,
-          name: "Another User",
+    expect(axios.get).toHaveBeenCalledWith("/api/users/2/");
+    await waitFor(() => expect(store.getActions().length).toEqual(2));
+    expect(store.getActions()).toMatchObject([
+      {
+        meta: {
+          arg: "2",
+          requestId: expect.any(String),
+          requestStatus: "pending",
+        },
+        payload: undefined,
+        type: "users/fetchUser/pending",
+      },
+      {
+        meta: {
+          arg: "2",
+          requestId: expect.any(String),
+          requestStatus: "fulfilled",
+        },
+        payload: {
+          pk: 2,
           email: "another@example.com",
-        }),
-      );
-    });
+          name: "Another User",
+        },
+        type: "users/fetchUser/fulfilled",
+      },
+    ]);
   });
 
-  it("displays error message if user data fetch fails", async () => {
-    axios.get.mockRejectedValueOnce(new Error("User not found"));
+  it("displays error messages", async () => {
+    store = mockStore({
+      users: {
+        data: {},
+        error: "invalid userId",
+        loading: false,
+      },
+    });
 
     render(
       <Provider store={store}>
@@ -98,13 +122,18 @@ describe("Profile Component", () => {
       </Provider>,
     );
 
-    await waitFor(() => {
-      expect(screen.getByText("User not found")).toBeInTheDocument();
-    });
+    expect(screen.getByText("invalid userId")).toBeInTheDocument();
   });
 
   it("displays loading state while fetching user data", async () => {
-    axios.get.mockImplementation(() => new Promise(() => {}));
+    store = mockStore({
+      users: {
+        data: {},
+        error: null,
+        loading: true,
+      },
+    });
+
     render(
       <Provider store={store}>
         <MemoryRouter initialEntries={["/users/3"]}>

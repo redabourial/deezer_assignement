@@ -29,11 +29,6 @@ export const usersSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {
-    addUser: (state, { payload }) => {
-      state.data[payload.pk] = payload;
-    },
-  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {

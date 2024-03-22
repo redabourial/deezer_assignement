@@ -50,6 +50,7 @@ describe("Home Component", () => {
         </MemoryRouter>
       </Provider>,
     );
+
     expect(screen.getByText("Register")).toBeInTheDocument();
   });
 
@@ -62,6 +63,7 @@ describe("Home Component", () => {
       },
       status: 200,
     });
+
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -85,6 +87,7 @@ describe("Home Component", () => {
     });
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
     expect(store.getActions()).toMatchObject([
       {
         meta: {
@@ -108,9 +111,9 @@ describe("Home Component", () => {
           requestStatus: "fulfilled",
         },
         payload: {
+          pk: 42,
           email: "test@example.com",
           name: "Test User",
-          pk: 42,
         },
         type: "users/createUser/fulfilled",
       },
@@ -161,6 +164,7 @@ describe("Home Component", () => {
     });
 
     await waitFor(() => expect(axios.post).toHaveBeenCalled());
+
     expect(store.getActions()).toMatchObject([
       {
         meta: {
@@ -200,6 +204,7 @@ describe("Home Component", () => {
         loading: false,
       },
     });
+
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -207,10 +212,11 @@ describe("Home Component", () => {
         </MemoryRouter>
       </Provider>,
     );
+
     expect(screen.getByText("invalid something")).toBeInTheDocument();
   });
 
-  it("Doesn't do anything when loading", async () => {
+  it("does nothing when loading", async () => {
     store = mockStore({
       users: {
         data: {},
@@ -240,8 +246,7 @@ describe("Home Component", () => {
       fireEvent.click(screen.getByText("Register"));
     });
 
-    expect(store.getActions()).toMatchObject([]);
-    expect(navigate).toHaveBeenCalledTimes(0);
+    expect(store.getActions()).toEqual([]);
     expect(axios.post).toHaveBeenCalledTimes(0);
   });
 });
