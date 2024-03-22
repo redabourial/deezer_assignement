@@ -1,105 +1,75 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
-import axios from "axios";
-import { flatten } from "lodash";
+import { Alert, Button, Form, Input, Row } from 'antd'
 
-import { MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Row, Alert } from 'antd';
+import { registerUser } from '/src/redux/usersSlice'
+import { MailOutlined, UserOutlined } from '@ant-design/icons'
 
-import { addUser } from "/src/redux/usersSlice";
-import './styles.css';
+import './styles.css'
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const validateStatus = s => s < 500;
+export default function Home () {
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-export default function Home({ loadingState = false }) {
+  const [error, loading] = useSelector(({ users }) => [users.error, users.loading])
+  const onFinish = async (data) => {
+    if (loading) return
+    dispatch(registerUser(data))
+      .unwrap()
+      .then((newUser) => navigate(`/users/${newUser.pk}`))
+      .catch(() => { })
+  }
 
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
-
-    const [loading, setLoading] = useState(loadingState);
-    const [error, setError] = useState(null)
-
-    const onFinish = async (data) => {
-        if (loading) return
-        setLoading(true);
-        setError(null)
-        try {
-            const startingTime = new Date();
-            const resp = await axios.post(`${api.root}/users/`, data, { validateStatus });
-            const timeToCreate = `${(new Date() - startingTime) / 1000} s`;
-            const { status } = resp;
-            if (resp.status >= 400 && status < 500) {
-                const err = flatten(Object.values(resp.data));
-                setError(err)
-                return
-            }
-            const user = { ...resp.data, ["Time to create (frontend)"]: timeToCreate }
-            dispatch(addUser(user))
-            navigate(`/users/${user.pk}`)
-        } catch (e) {
-            setError(e)
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <>
-            <div className="container" >
-                <Row>
-                    <Form
-                        className="form"
-                        onFinish={onFinish}
-                    >
-                        <Form.Item
-                            name="name"
-                            rules={[
-                                {
-                                    required: true,
-                                    message: 'Please input your Name!',
-                                },
-                            ]}
-                        >
-                            <Input prefix={<UserOutlined />} placeholder="Name" />
-                        </Form.Item>
-                        <Form.Item
-                            name="email"
-                            rules={[
-                                {
-                                    required: true,
-                                    type: "email",
-                                    message: "The input is not valid E-mail!",
-                                },
-                            ]}
-                        >
-                            <Input prefix={<MailOutlined />} placeholder="Email" />
-                        </Form.Item>
-                        {
-                            error ?
-                                <Alert
-                                    message={`Error : ${error}`}
-                                    type="error"
-                                    className="errorMsg"
+  return (
+    <>
+      <div className="container" >
+        <Row>
+          <Form
+            className="form"
+            onFinish={onFinish}
+          >
+            <Form.Item
+              name="name"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Name!'
+                }
+              ]}
+            >
+              <Input prefix={<UserOutlined />} placeholder="Name" />
+            </Form.Item>
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  type: 'email',
+                  message: 'The input is not valid E-mail!'
+                }
+              ]}
+            >
+              <Input prefix={<MailOutlined />} placeholder="Email" />
+            </Form.Item>
+            {
+                            error
+                              ? <Alert
+                                  message={`Error : ${error}`}
+                                  type="error"
+                                  className="errorMsg"
                                 />
-                                : null
-                        }
-                        <Form.Item>
-                            <Button type="primary" htmlType="submit" className="register-form-button">
+                              : null
+            }
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="register-form-button">
                                 Register
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </Row>
-            </div>
-        </>
-    );
-
+              </Button>
+            </Form.Item>
+          </Form>
+        </Row>
+      </div>
+    </>
+  )
 }
-
-Home.propTypes = {
-    loadingState: PropTypes.bool,
-};
