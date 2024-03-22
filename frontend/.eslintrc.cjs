@@ -2,8 +2,7 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   extends: [
-    'eslint:recommended',
-    'standard',
+    'plugin:prettier/recommended',
     'plugin:react/recommended',
     'plugin:react/jsx-runtime',
     'plugin:react-hooks/recommended',
@@ -21,7 +20,11 @@ module.exports = {
   ],
   parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
   settings: { react: { version: '18.2' } },
-  plugins: ['react-refresh', 'simple-import-sort'],
+  plugins: [
+    'react-refresh',
+    'simple-import-sort',
+    "prettier",
+  ],
   rules: {
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
@@ -34,12 +37,7 @@ module.exports = {
         "varsIgnorePattern": "React",
       }
     ],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/no-absolute-path": "off",
-    "no-multiple-empty-lines": "error",
-    "semi": ["error", "always"],
-    "comma-dangle": ["error", "always"],
+    "prettier/prettier": "error",
   },
   overrides: [
     {
