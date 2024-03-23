@@ -4,17 +4,10 @@ on:
     branches:
       - main
       - premain
-  workflow_run:
-    workflows: ["Backend", "Frontend"]
-    types:
-      - success
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-  
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
