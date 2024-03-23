@@ -2,9 +2,7 @@ name: Push to registry
 on:
   push:
     branches:
-      - main
-  pull_request:
-    types: [closed]
+      - master
 
 jobs:
   deploy:
