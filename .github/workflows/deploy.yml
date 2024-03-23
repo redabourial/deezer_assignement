@@ -9,6 +9,20 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+    
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+      
+    - name: Login to Docker registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ secrets.DOCKER_REPO }}
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -16,11 +30,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20'
-
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
 
     - name: Install npm dependencies
       run: cd frontend && npm install
@@ -33,5 +42,8 @@ jobs:
         mkdir -p backend/static/
         mv frontend/dist/* backend/static/
 
-    - name: build container
-      run: docker build -t reda_bourial_ deezer_assignement:$(git tag | tail -n 1)  .
+    - name: Build and push
+      uses: docker/build-push-action@v5
+      with:
+        push: true
+        tags: reda_bourial_deezer_assignement:$(git tag | tail -n 1 )
