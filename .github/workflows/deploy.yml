@@ -19,8 +19,11 @@ jobs:
         git fetch --tags
         echo version $(git tag | sort | tail -n 1)
         echo "tag=$(echo git tag | sort | tail -n 1)" >> "$GITHUB_OUTPUT"
-        echo ${{ steps.tag.outputs.tag }} }}
 
+    - name: Echo version
+      run: |
+        echo ${{ steps.tag.outputs.tag }}
+ 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     
@@ -56,4 +59,4 @@ jobs:
       with:
         push: true
         name: reda_bourial_deezer_assignement
-        tags: $(echo git tag | sort | tail -n 1)
+        tags: ${{ steps.tag.outputs.tag }}
