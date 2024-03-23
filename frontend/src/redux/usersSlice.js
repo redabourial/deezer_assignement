@@ -9,7 +9,7 @@ export const registerUser = createAsyncThunk(
     const resp = await createUser(user);
     const timeToRespond = (new Date() - startTime) / 1000;
     if (resp.status >= 400) {
-      const err = flatten(Object.values(resp.data));
+      const err = flatten(Object.values(resp.data)).join(",");
       throw new Error(err);
     }
     return { ...resp.data, time_to_query: timeToRespond };
