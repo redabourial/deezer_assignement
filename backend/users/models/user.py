@@ -1,11 +1,11 @@
-from time import time
 import random
+from time import time
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.dispatch import receiver
 from django.db import models
 from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 def validate_deezer_email(email):

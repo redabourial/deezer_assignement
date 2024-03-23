@@ -11,6 +11,7 @@ coverage: backend_coverage frontend_coverage
 
 backend_lint:
 	docker exec -it django black --check .
+	docker exec -it django isort -c .
 
 frontend_lint:
 	docker exec -it vite npm run lint
@@ -20,6 +21,7 @@ lint: backend_lint frontend_lint
 
 backend_lint_fix:
 	docker exec -it django black .
+	docker exec -it django isort .
 
 frontend_lint_fix:
 	docker exec -it vite npm run lint_fix

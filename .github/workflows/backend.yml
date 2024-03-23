@@ -23,8 +23,8 @@ jobs:
         python-version: '3.12'
 
     - name: Install Django dependencies
-      run: pip install -r requirements.txt
-
+      run: pip install -r requirements.txt -r requirements.dev.txt
+        
     - name: lint
       run: black --check .
 

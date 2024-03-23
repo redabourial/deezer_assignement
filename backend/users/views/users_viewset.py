@@ -1,8 +1,10 @@
+from time import time
+
 from rest_framework import generics, status
 from rest_framework.response import Response
+
 from users.models import User
 from users.serializers import UserSerializer
-from time import time
 
 
 class UserListCreateAPIView(generics.ListCreateAPIView):
