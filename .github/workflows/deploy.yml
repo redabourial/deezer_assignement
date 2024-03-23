@@ -13,10 +13,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Output tag
+    - name: Save version 
       run: |
         git fetch --tags
-        git tag | sort | tail -n 1
+        echo version $(git tag | sort | tail -n 1)
+        echo "tag=$(echo git tag | sort | tail -n 1)" >> $GITHUB_OUTPUT
 
     - name: exit
       run: exit 1
@@ -51,9 +52,6 @@ jobs:
       run: |
         mkdir -p backend/static/
         mv frontend/dist/* backend/static/
-
-    - name: Set tag
-      run: echo "tag=$(echo ${{ steps.meta.outputs.tags }} | tr ',' '\n' | sort -V | tail -n 1)" >> $GITHUB_OUTPUT
 
     - name: Build and push
       uses: docker/build-push-action@v5
