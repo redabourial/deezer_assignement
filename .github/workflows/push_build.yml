@@ -1,4 +1,4 @@
-name: Deploy
+name: Push to registry
 on:
   push:
     branches:

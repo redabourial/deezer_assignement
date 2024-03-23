@@ -90,6 +90,7 @@ DATABASES = {
         "USER": os.getenv("MYSQL_USER"),
         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
         "HOST": os.getenv("MYSQL_HOST"),
+        "PORT": os.getenv("MYSQL_PORT") or "3306",
     },
 }
 
@@ -128,9 +129,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = ""
+STATIC_URL = "assets"
 MEDIA_URL = "/media/"
-STATIC_ROOT = BASE_DIR / "static"
+STATIC_ROOT = BASE_DIR / "static/assets"
+STATIC_INDEX_ROOT = BASE_DIR / "static"
 
 WHITENOISE_INDEX_FILE = True
 
@@ -139,7 +141,5 @@ WHITENOISE_INDEX_FILE = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = (
-    [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
-)
+CORS_ALLOWED_ORIGINS = [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
 ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
