@@ -5,12 +5,14 @@ import { flatten } from "lodash";
 export const registerUser = createAsyncThunk(
   "users/createUser",
   async (user) => {
+    const startTime = new Date();
     const resp = await createUser(user);
+    const timeToRespond = (new Date() - startTime) / 1000;
     if (resp.status >= 400) {
       const err = flatten(Object.values(resp.data));
       throw new Error(err);
     }
-    return resp.data;
+    return { ...resp.data, Time_to_query: timeToRespond };
   },
 );
 
