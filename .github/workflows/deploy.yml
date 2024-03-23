@@ -46,4 +46,5 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         push: true
-        tags: reda_bourial_deezer_assignement:$(git tag | tail -n 1 )
+        name: reda_bourial_deezer_assignement
+        tags: $(git tag | tail -n 1 )
