@@ -9,7 +9,7 @@ jest.mock("/src/api/users", () => ({
 }));
 
 describe("registerUser", () => {
-  it("should dispatch registerUser.pending and registerUser.fulfilled actions on successful registration", async () => {
+  it("should dispatch registerUser.fulfilled actions on successful registration", async () => {
     const mockUser = { name: "Test User", email: "test@example.com" };
     const mockResponse = { data: { pk: 1, ...mockUser }, status: 200 };
 
@@ -18,21 +18,40 @@ describe("registerUser", () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
 
-    await registerUser(mockUser)(dispatch, getState, undefined);
+    await registerUser(mockUser)(dispatch, getState);
 
-    expect(dispatch).toHaveBeenCalledWith({
-      meta: {
-        arg: { email: "test@example.com", name: "Test User" },
-        requestId: expect.any(String),
-        requestStatus: "fulfilled",
-      },
-      payload: { email: "test@example.com", name: "Test User", pk: 1 },
-      type: "users/createUser/fulfilled",
-    });
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch.mock.calls).toMatchObject([
+      [
+        {
+          meta: {
+            arg: { email: "test@example.com", name: "Test User" },
+            requestId: expect.any(String),
+            requestStatus: "pending",
+          },
+          payload: undefined,
+          type: "users/createUser/pending",
+        },
+      ],
+      [
+        {
+          meta: {
+            arg: { email: "test@example.com", name: "Test User" },
+            requestId: expect.any(String),
+            requestStatus: "fulfilled",
+          },
+          payload: {
+            Time_to_query: expect.any(Number),
+            email: "test@example.com",
+            name: "Test User",
+            pk: 1,
+          },
+          type: "users/createUser/fulfilled",
+        },
+      ],
+    ]);
   });
 
-  it("should dispatch registerUser.pending and registerUser.rejected actions on failed registration", async () => {
+  it("should dispatch registerUser.rejected actions on failed registration", async () => {
     const mockUser = { name: "Test User", email: "test@example.com" };
     const mockError = "Email already exists";
     const mockResponse = { data: { email: [mockError] }, status: 400 };
@@ -42,23 +61,41 @@ describe("registerUser", () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
 
-    await registerUser(mockUser)(dispatch, getState, undefined);
+    await registerUser(mockUser)(dispatch, getState);
 
-    expect(dispatch).toHaveBeenCalledWith({
-      meta: {
-        arg: { email: "test@example.com", name: "Test User" },
-        requestId: expect.any(String),
-        requestStatus: "pending",
-      },
-      payload: undefined,
-      type: "users/createUser/pending",
-    });
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch.mock.calls).toMatchObject([
+      [
+        {
+          meta: {
+            arg: { email: "test@example.com", name: "Test User" },
+            requestId: expect.any(String),
+            requestStatus: "pending",
+          },
+          payload: undefined,
+          type: "users/createUser/pending",
+        },
+      ],
+      [
+        {
+          error: { message: expect.any(String) },
+          meta: {
+            aborted: false,
+            arg: { email: "test@example.com", name: "Test User" },
+            condition: false,
+            rejectedWithValue: false,
+            requestId: expect.any(String),
+            requestStatus: "rejected",
+          },
+          payload: undefined,
+          type: "users/createUser/rejected",
+        },
+      ],
+    ]);
   });
 });
 
 describe("fetchUser", () => {
-  it("should dispatch fetchUser.pending and fetchUser.fulfilled actions on successful user retrieval", async () => {
+  it("should dispatch fetchUser.fulfilled actions on successful user retrieval", async () => {
     const mockUserId = 1;
     const mockUser = {
       pk: mockUserId,
@@ -72,18 +109,32 @@ describe("fetchUser", () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
 
-    await fetchUser(mockUserId)(dispatch, getState, undefined);
+    await fetchUser(mockUserId)(dispatch, getState);
 
-    expect(dispatch).toHaveBeenCalledWith({
-      meta: {
-        arg: 1,
-        requestId: expect.any(String),
-        requestStatus: "fulfilled",
-      },
-      payload: { email: "test@example.com", name: "Test User", pk: 1 },
-      type: "users/fetchUser/fulfilled",
-    });
-    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch.mock.calls).toMatchObject([
+      [
+        {
+          meta: {
+            arg: 1,
+            requestId: expect.any(String),
+            requestStatus: "pending",
+          },
+          payload: undefined,
+          type: "users/fetchUser/pending",
+        },
+      ],
+      [
+        {
+          meta: {
+            arg: 1,
+            requestId: expect.any(String),
+            requestStatus: "fulfilled",
+          },
+          payload: { email: "test@example.com", name: "Test User", pk: 1 },
+          type: "users/fetchUser/fulfilled",
+        },
+      ],
+    ]);
   });
 
   it("should dispatch fetchUser.pending and fetchUser.rejected actions on failed user retrieval", async () => {
@@ -95,14 +146,42 @@ describe("fetchUser", () => {
     const dispatch = jest.fn();
     const getState = jest.fn();
 
-    await fetchUser(mockUserId)(dispatch, getState, undefined);
+    await fetchUser(mockUserId)(dispatch, getState);
 
     expect(dispatch).toHaveBeenCalledWith({
       meta: { arg: 1, requestId: expect.any(String), requestStatus: "pending" },
       payload: undefined,
       type: "users/fetchUser/pending",
     });
-    expect(dispatch).toHaveBeenCalledTimes(2);
+
+    expect(dispatch.mock.calls).toMatchObject([
+      [
+        {
+          meta: {
+            arg: 1,
+            requestId: expect.any(String),
+            requestStatus: "pending",
+          },
+          payload: undefined,
+          type: "users/fetchUser/pending",
+        },
+      ],
+      [
+        {
+          error: { message: expect.any(String) },
+          meta: {
+            aborted: false,
+            arg: 1,
+            condition: false,
+            rejectedWithValue: false,
+            requestId: expect.any(String),
+            requestStatus: "rejected",
+          },
+          payload: undefined,
+          type: "users/fetchUser/rejected",
+        },
+      ],
+    ]);
   });
 });
 

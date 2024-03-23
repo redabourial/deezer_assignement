@@ -58,7 +58,7 @@ describe("Home Component", () => {
     axios.post.mockResolvedValue({
       data: {
         pk: 42,
-        name: "Test User",
+        username: "Test User",
         email: "test@example.com",
       },
       status: 200,
@@ -93,7 +93,7 @@ describe("Home Component", () => {
         meta: {
           arg: {
             email: "test@example.com",
-            name: "Test User",
+            username: "Test User",
           },
           requestId: expect.any(String),
           requestStatus: "pending",
@@ -105,7 +105,7 @@ describe("Home Component", () => {
         meta: {
           arg: {
             email: "test@example.com",
-            name: "Test User",
+            username: "Test User",
           },
           requestId: expect.any(String),
           requestStatus: "fulfilled",
@@ -113,7 +113,7 @@ describe("Home Component", () => {
         payload: {
           pk: 42,
           email: "test@example.com",
-          name: "Test User",
+          username: "Test User",
         },
         type: "users/createUser/fulfilled",
       },
@@ -124,7 +124,7 @@ describe("Home Component", () => {
       "/api/users/",
       {
         email: "test@example.com",
-        name: "Test User",
+        username: "Test User",
       },
       {
         validateStatus: expect.any(Function),
@@ -170,7 +170,7 @@ describe("Home Component", () => {
         meta: {
           arg: {
             email: "test@example.com",
-            name: "Test User",
+            username: "Test User",
           },
           requestId: expect.any(String),
           requestStatus: "pending",
@@ -182,7 +182,7 @@ describe("Home Component", () => {
         meta: {
           arg: {
             email: "test@example.com",
-            name: "Test User",
+            username: "Test User",
           },
           requestId: expect.any(String),
           requestStatus: "rejected",

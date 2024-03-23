@@ -1,16 +1,27 @@
-from time import time
 import random
+from time import time
 
+from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 
-class User(models.Model):
-    name = models.CharField(max_length=25)
-    email = models.EmailField(unique=True)
+def validate_deezer_email(email):
+    if email.endswith("@deezer.com") or email.endswith(".deezer.com"):
+        return
+    raise ValidationError("Email must end in @deezer.com or @*.deezer.com")
+
+
+class User(AbstractUser):
+    username = models.CharField(max_length=25)
+    email = models.EmailField(unique=True, validators=[validate_deezer_email])
     fib = models.BigIntegerField(null=True)
     time_to_compute_fib = models.FloatField(null=True)
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
 
 
 def fibonacci(x):
@@ -33,5 +44,5 @@ def compute_fib(sender, instance, created, **kwargs):
         fib = fibonacci(x)
         time_end = time()
         instance.fib = fib
-        instance.time_to_compute_fib = (time_end - time_start) * 1000
+        instance.time_to_compute_fib = time_end - time_start
         instance.save()

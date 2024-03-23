@@ -7,10 +7,11 @@ const Profile = React.lazy(() => import("./pages/profile"));
 function App() {
   return (
     <BrowserRouter>
-      <Suspense fallback={<>Loading...</>}>
+      <Suspense>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/users/:userId" element={<Profile />} />
+          <Route path="*" element={<>Page does not exist</>} />
         </Routes>
       </Suspense>
     </BrowserRouter>

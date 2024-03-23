@@ -30,7 +30,7 @@ export default function Home() {
         <Row>
           <Form className="form" onFinish={onFinish}>
             <Form.Item
-              name="name"
+              name="username"
               rules={[
                 {
                   required: true,

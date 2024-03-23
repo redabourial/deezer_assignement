@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,7 @@ DEBUG = os.getenv("DJANGO_DEBUG") == "true"
 SECRET_KEY = (
     "django-insecure-k2y%+_n7n0!z+-$n27-jnxigy5_kvm%7_ftv6wr#vyf!0j^%#7"
     if DEBUG
-    else os.get_env("DJANGO_SECRET")
+    else os.getenv("DJANGO_SECRET")
 )
 
 assert SECRET_KEY, "secret key cannot be empty"
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -89,6 +90,7 @@ DATABASES = {
         "USER": os.getenv("MYSQL_USER"),
         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
         "HOST": os.getenv("MYSQL_HOST"),
+        "PORT": os.getenv("MYSQL_PORT") or "3306",
     },
 }
 
@@ -127,8 +129,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "/assets/"
-STATIC_ROOT = "./static/"
+STATIC_URL = "assets/"
+MEDIA_URL = "/media/"
+STATIC_ROOT = BASE_DIR / "static/assets"
+STATIC_INDEX_ROOT = BASE_DIR / "static"
+
+WHITENOISE_INDEX_FILE = True
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -138,3 +145,6 @@ CORS_ALLOWED_ORIGINS = (
     [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
 )
 ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+
+
+AUTH_USER_MODEL = "users.user"

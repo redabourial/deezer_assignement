@@ -14,6 +14,7 @@
     "@reduxjs/toolkit": "^2.2.2",
     "antd": "^5.15.3",
     "axios": "^1.6.8",
+    "lcov-total": "^2.1.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
