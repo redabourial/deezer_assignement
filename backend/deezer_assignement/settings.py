@@ -129,7 +129,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "assets"
+STATIC_URL = "assets/"
 MEDIA_URL = "/media/"
 STATIC_ROOT = BASE_DIR / "static/assets"
 STATIC_INDEX_ROOT = BASE_DIR / "static"
@@ -145,3 +145,6 @@ CORS_ALLOWED_ORIGINS = (
     [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
 )
 ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+
+
+AUTH_USER_MODEL = "users.user"

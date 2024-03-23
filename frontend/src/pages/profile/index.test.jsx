@@ -24,7 +24,7 @@ describe("Profile Component", () => {
         data: {
           57: {
             pk: 57,
-            name: "Test User",
+            username: "Test User",
             email: "test@example.com",
           },
         },
@@ -49,7 +49,7 @@ describe("Profile Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText("User Info")).toBeInTheDocument();
-      expect(screen.getByText("Name")).toBeInTheDocument();
+      expect(screen.getByText("Username")).toBeInTheDocument();
       expect(screen.getByText("Test User")).toBeInTheDocument();
       expect(screen.getByText("Email")).toBeInTheDocument();
       expect(screen.getByText("test@example.com")).toBeInTheDocument();
@@ -60,7 +60,7 @@ describe("Profile Component", () => {
     axios.get.mockResolvedValueOnce({
       data: {
         pk: 2,
-        name: "Another User",
+        username: "Another User",
         email: "another@example.com",
       },
     });
@@ -96,7 +96,7 @@ describe("Profile Component", () => {
         payload: {
           pk: 2,
           email: "another@example.com",
-          name: "Another User",
+          username: "Another User",
         },
         type: "users/fetchUser/fulfilled",
       },
