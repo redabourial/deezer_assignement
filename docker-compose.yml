@@ -9,13 +9,11 @@ services:
     volumes:
       - ./backend:/usr/src/app
     environment:
-      - DJANGO_ALLOWED_HOSTS=localhost
-      - DJANGO_CORS_ALLOWED_ORIGINS=http://localhost
       - DJANGO_DEBUG=true
       - DJANGO_SECRET=secret
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=MYSQL_USER
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_HOST=mysql
     command: --reload
     mem_limit: 512M
@@ -39,8 +37,6 @@ services:
     image: mysql
     ports:
       - "127.0.0.1:3306:3306"
-    volumes:
-      - ./mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}

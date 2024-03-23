@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import { Descriptions } from "antd";
+import { Card, Descriptions } from "antd";
 
 import { fetchUser } from "/src/redux/usersSlice";
 
@@ -38,17 +38,20 @@ export default function Profile() {
 
   return (
     <div className="container">
-      <Descriptions
-        className="description"
-        title="User Info"
-        items={Object.entries(user)
-          .sort(([k1], [k2]) => k1 - k2)
-          .map(([key, value]) => ({
-            key,
-            label: key.charAt(0).toUpperCase() + key.slice(1),
-            children: value,
-          }))}
-      />
+      <Card title="User Info">
+        <Descriptions
+          layout="vertical"
+          className="description"
+          items={Object.entries(user)
+            .sort(([k1], [k2]) => k1 - k2)
+            .map(([key, value]) => ({
+              key,
+              label:
+                key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " "),
+              children: value,
+            }))}
+        />
+      </Card>
     </div>
   );
 }

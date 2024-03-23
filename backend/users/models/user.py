@@ -14,9 +14,16 @@ def validate_deezer_email(email):
     raise ValidationError("Email must end in @deezer.com or @*.deezer.com")
 
 
+def prohibit_upper_case_chars(email):
+    if email.lower() != email:
+        raise ValidationError("Email must be lower case")
+
+
 class User(AbstractUser):
     username = models.CharField(max_length=25)
-    email = models.EmailField(unique=True, validators=[validate_deezer_email])
+    email = models.EmailField(
+        unique=True, validators=[validate_deezer_email, prohibit_upper_case_chars]
+    )
     fib = models.BigIntegerField(null=True)
     time_to_compute_fib = models.FloatField(null=True)
 

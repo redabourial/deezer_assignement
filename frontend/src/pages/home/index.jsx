@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { Alert, Button, Form, Input, Row } from "antd";
+import { Alert, Button, Card, Form, Input } from "antd";
 
 import { registerUser } from "/src/redux/usersSlice";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
@@ -27,8 +27,8 @@ export default function Home() {
   return (
     <>
       <div className="container">
-        <Row>
-          <Form className="form" onFinish={onFinish}>
+        <Card title={"Registration form"} className="card">
+          <Form onFinish={onFinish}>
             <Form.Item
               name="username"
               rules={[
@@ -53,7 +53,17 @@ export default function Home() {
               <Input prefix={<MailOutlined />} placeholder="Email" />
             </Form.Item>
             {error ? (
-              <Alert message={error} type="error" className="errorMsg" />
+              <Alert
+                message={
+                  <>
+                    {error.split(",").map((e, i) => (
+                      <div key={i}>{`${e}.`}</div>
+                    ))}
+                  </>
+                }
+                type="error"
+                className="errorMsg"
+              />
             ) : null}
             <Form.Item>
               <Button
@@ -65,7 +75,7 @@ export default function Home() {
               </Button>
             </Form.Item>
           </Form>
-        </Row>
+        </Card>
       </div>
     </>
   );
