@@ -16,7 +16,7 @@ jobs:
     - name: Output tag
       run: |
         git fetch --tags
-        echo "tag=$(ls ${GITHUB_REF#refs/tags/})"
+        git tag | sort | tail -n 1
 
     - name: exit
       run: exit 1
