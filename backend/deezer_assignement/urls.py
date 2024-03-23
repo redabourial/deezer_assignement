@@ -7,16 +7,13 @@ urlpatterns = [
     re_path(r"^api/", include("users.urls")),
 ]
 
-# Serve static content
-urlpatterns += static(
-    settings.STATIC_URL, document_root=settings.STATIC_ROOT + "/assets/"
-)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 # Catch-all for all urls except those starting with api/
-urlpatterns += [
-    re_path(
-        r"^(?!api/).*",
-        serve,
-        {"document_root": settings.STATIC_ROOT, "path": "index.html"},
-    )
-]
+##urlpatterns += [
+##    re_path(
+##        r"^(?!api/).*",
+##        serve,
+##        {"document_root": settings.STATIC_ROOT, "path": "index.html"},
+##    )
+##]

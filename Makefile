@@ -23,3 +23,5 @@ frontend_lint_fix:
 	docker exec -it vite npm run lint_fix
 
 lint_fix: backend_lint_fix frontend_lint_fix
+
+d

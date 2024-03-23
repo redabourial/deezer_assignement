@@ -1,0 +1,36 @@
+name: Backend
+
+on:
+  push:
+    branches:
+      - main
+      - premain
+
+defaults:
+  run:
+    working-directory: backend
+
+jobs:
+  back:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Django dependencies
+      run: pip install -r requirements.txt
+
+    - name: lint
+      run: black --check .
+
+    - name: test
+      run: DJANGO_DEBUG=true coverage run --rcfile=coverage.rc manage.py test --settings=deezer_assignement.test_settings
+
+    - name: coverage
+      run: coverage report  --rcfile=coverage.rc  -m --fail-under=100

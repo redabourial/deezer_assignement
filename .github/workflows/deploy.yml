@@ -1,0 +1,40 @@
+name: Deploy Workflow
+on:
+  workflow_run:
+    workflows: ["Backend", "Frontend"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install npm dependencies
+      run: cd frontend && npm install
+
+    - name: Build frontend
+      run: cd frontend && npm run build
+
+    - name: Copy frontend to django static folder
+      run: |
+        mkdir -p backend/static/
+        mv frontend/dist/* backend/static/
+
+    - name: build container
+      run: docker build -t reda_bourial_ deezer_assignement:$(git tag | tail -n 1)  .

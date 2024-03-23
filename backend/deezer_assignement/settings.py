@@ -27,7 +27,7 @@ DEBUG = os.getenv("DJANGO_DEBUG") == "true"
 SECRET_KEY = (
     "django-insecure-k2y%+_n7n0!z+-$n27-jnxigy5_kvm%7_ftv6wr#vyf!0j^%#7"
     if DEBUG
-    else os.get_env("DJANGO_SECRET")
+    else os.getenv("DJANGO_SECRET")
 )
 
 assert SECRET_KEY, "secret key cannot be empty"
@@ -127,8 +127,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "/assets/"
-STATIC_ROOT = "./static/"
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "static/"
+STATICFILES_DIRS= [STATIC_ROOT]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

@@ -33,5 +33,5 @@ def compute_fib(sender, instance, created, **kwargs):
         fib = fibonacci(x)
         time_end = time()
         instance.fib = fib
-        instance.time_to_compute_fib = (time_end - time_start) * 1000
+        instance.time_to_compute_fib = time_end - time_start
         instance.save()
