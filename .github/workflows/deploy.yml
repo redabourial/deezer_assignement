@@ -42,9 +42,14 @@ jobs:
         mkdir -p backend/static/
         mv frontend/dist/* backend/static/
 
+    - name: Filter tags to get the most advanced tag
+      id: filter
+      run: |
+        echo "::set-output name=tag::$(echo ${{ steps.meta.outputs.tags }} | tr ',' '\n' | sort -V | tail -n 1)"
+
     - name: Build and push
       uses: docker/build-push-action@v5
       with:
         push: true
         name: reda_bourial_deezer_assignement
-        tags: $(git tag | tail -n 1 )
+        tags: ${{ steps.filter.outputs.tag }}
