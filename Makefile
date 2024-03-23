@@ -1,5 +1,15 @@
 include .env
 
+setup_env:
+	cd frontend/ && npm install
+
+up: setup_env
+	docker-compose up -d
+	# Leave time to mysql to start
+	sleep 20
+	docker exec django python manage.py migrate
+	# Dev env setup finished, happy hacking 👍
+
 backend_coverage: 
 	docker exec -it django coverage run --rcfile=coverage.rc manage.py test --settings=deezer_assignement.test_settings
 	docker exec -it django coverage report  --rcfile=coverage.rc  -m --fail-under=100
@@ -29,7 +39,6 @@ lint_fix: backend_lint_fix frontend_lint_fix
 
 local_build:
 	docker rmi -f deezer_assignement:nightly
-	cd frontend && npm install
 	cd frontend && npm run build
 	rm -rf backend/static/
 	mkdir backend/static/
