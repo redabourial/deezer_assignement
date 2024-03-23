@@ -10,6 +10,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Output tag
+      run: echo "tag=$(git tag | tr ',' '\n' | sort -V | tail -n 1)"
+
+    - name: exit
+      run: exit 1
+        
+
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
     
@@ -23,8 +33,6 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Checkout code
-      uses: actions/checkout@v4
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -44,9 +52,6 @@ jobs:
 
     - name: Set tag
       run: echo "tag=$(echo ${{ steps.meta.outputs.tags }} | tr ',' '\n' | sort -V | tail -n 1)" >> $GITHUB_OUTPUT
-
-    - name: Output tag
-      run: echo "tag=$(echo ${{ steps.meta.outputs.tags }} | tr ',' '\n' | sort -V | tail -n 1)"
 
     - name: Build and push
       uses: docker/build-push-action@v5
