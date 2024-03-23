@@ -141,5 +141,7 @@ WHITENOISE_INDEX_FILE = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
+CORS_ALLOWED_ORIGINS = (
+    [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
+)
 ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
