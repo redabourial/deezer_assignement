@@ -33,7 +33,15 @@ jobs:
         username: ${{ secrets.DOCKER_USER }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-
+    - name: Check that version doesn't exist
+      run: |
+        if docker manifest inspect ${{ secrets.DOCKER_REPO }}/reda_bourial_deezer_assignement:${{ steps.tag.outputs.tag }} &> /dev/null; then
+            echo "Tag already exists, failing the pipeline"
+            exit 1
+        else
+            echo "Tag does not exist, proceeding with the pipeline"
+        fi
+ 
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
