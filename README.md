@@ -62,7 +62,7 @@ Please see [architecture.md](#TODO add link)
 ## Code quality checks
 Please see [code_quality.md](#TODO add link)
 ## Dev env
-Please see [code_quality.md](#TODO add link)
+Please see [dev_env.md](#TODO add link)
 # CI-CD
 ## CI
 Please see [ci.md](#TODO add link)

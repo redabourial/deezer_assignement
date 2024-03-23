@@ -1,0 +1,30 @@
+title User Creation Sequence
+
+participant User
+participant Frontend
+participant State
+participant Thunk
+participant Backend
+participant Database
+
+User->Frontend: Access Home Page
+User->Frontend: Fill User Creation Form
+User->Frontend: Submit form
+User->Frontend: Click Submit Button
+Frontend->Frontend: Does some basic validation
+Frontend->State: Check that no thunks are pending  
+alt No thunk is pending
+    Frontend->Frontend: Ignores submission
+else A thunk is pending
+    Frontend->Thunk: Start an async thunk and a timer
+    Thunk->Backend: Send User Creation Request (POST api/users/)
+    Backend->Backend: Validate Email Domain and that email is lowercase
+    Backend->Backend: Validate Username not empty
+    Backend->Database: Save User Profile with Email, Name
+    Backend->Backend: Calculate Fibonacci of X [50,55] (f(X))
+    Backend->Database: Updates user profile with f(X)
+    Backend->Thunk: Send Response (User Profile Data and timers)
+    Thunk->State: Saves the user 
+    Thunk->Frontend: Resolves 
+    Frontend->User: Redirect to Profile View for the user
+end
