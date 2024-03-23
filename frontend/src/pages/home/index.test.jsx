@@ -213,7 +213,7 @@ describe("Home Component", () => {
       </Provider>,
     );
 
-    expect(screen.getByText("invalid something")).toBeInTheDocument();
+    expect(screen.getByText("invalid something.")).toBeInTheDocument();
   });
 
   it("does nothing when loading", async () => {
