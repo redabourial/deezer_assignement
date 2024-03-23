@@ -12,8 +12,8 @@ services:
       - DJANGO_DEBUG=true
       - DJANGO_SECRET=secret
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=MYSQL_USER
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_HOST=mysql
     command: --reload
     mem_limit: 512M

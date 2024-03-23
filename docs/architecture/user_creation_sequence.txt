@@ -2,7 +2,7 @@ title User Creation Sequence
 
 participant User
 participant Frontend
-participant State
+participant Store
 participant Thunk
 participant Backend
 participant Database
@@ -12,7 +12,7 @@ User->Frontend: Fill User Creation Form
 User->Frontend: Submit form
 User->Frontend: Click Submit Button
 Frontend->Frontend: Does some basic validation
-Frontend->State: Check that no thunks are pending  
+Frontend->Store: Check that no thunks are pending  
 alt No thunk is pending
     Frontend->Frontend: Ignores submission
 else A thunk is pending
@@ -24,7 +24,7 @@ else A thunk is pending
     Backend->Backend: Calculate Fibonacci of X [50,55] (f(X))
     Backend->Database: Updates user profile with f(X)
     Backend->Thunk: Send Response (User Profile Data and timers)
-    Thunk->State: Saves the user 
+    Thunk->Store: Saves the user 
     Thunk->Frontend: Resolves 
     Frontend->User: Redirect to Profile View for the user
 end

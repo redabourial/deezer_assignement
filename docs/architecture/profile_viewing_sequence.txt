@@ -1,0 +1,19 @@
+title Profile Viewing sequence
+
+participant User
+participant Frontend
+participant Store
+participant Thunk
+participant Backend
+participant Database
+
+User->Frontend: Access Profile page
+Frontend->Store: Fetches user from the store 
+alt User is not present
+    Frontend->Thunk: Start an async thunk
+    Thunk->Backend: Send User fetching Request (GET api/users/<pk>)
+    Backend->Database: Fetches user
+    Backend->Thunk: Send Response (User Profile Data)
+    Thunk->Store: Saves the user
+end
+Frontend->User: Displays user's informations

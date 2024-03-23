@@ -58,17 +58,10 @@ All the following commands assume the dev env is set.
 Then go to [http://0.0.0.0:8000](http://0.0.0.0:8000).
 # Ressources
 ## Architecture
-Please see [architecture.md](#TODO add link) 
-## Code quality checks
-Please see [code_quality.md](#TODO add link)
-## Dev env
-Please see [dev_env.md](#TODO add link)
-# CI-CD
-## CI
-Please see [ci.md](#TODO add link)
-## CD
-Please see [cd.md](#TODO add link)
+Please see [architecture.md](https://raw.githubusercontent.com/redabourial/deezer_assignement/main/docs/architecture.md) 
+## CI-CD
+Please see [ci_cd.md](https://raw.githubusercontent.com/redabourial/deezer_assignement/main/docs/ci_cd.md)
 ## Deployement
-Please see [deployement.md](#TODO add link)
+Please see [deployement.md](https://raw.githubusercontent.com/redabourial/deezer_assignement/main/docs/deployement.md)
 # Known issues
-Please see [known_issues.md](#TODO add link)
+Please see [known_issues.md](https://raw.githubusercontent.com/redabourial/deezer_assignement/main/docs/known_issues.md)

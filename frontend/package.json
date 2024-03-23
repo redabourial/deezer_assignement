@@ -5,7 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "VITE_CJS_IGNORE_WARNING=true vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "lint_fix": "eslint . --ext js,jsx --report-unused-disable-directives  --fix",
     "preview": "vite preview"

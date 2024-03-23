@@ -46,7 +46,8 @@ export default function Profile() {
             .sort(([k1], [k2]) => k1 - k2)
             .map(([key, value]) => ({
               key,
-              label: key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g," "),
+              label:
+                key.charAt(0).toUpperCase() + key.slice(1).replace(/_/g, " "),
               children: value,
             }))}
         />
