@@ -24,3 +24,10 @@ frontend_lint_fix:
 
 lint_fix: backend_lint_fix frontend_lint_fix
 
+local_build:
+	cd frontend && npm install
+	cd frontend && npm run build
+	rm -rf backend/static/
+	mkdir backend/static/
+	mv ./frontend/dist/* backend/static/
+	docker build --tag deezer_assignement:nightly . 
