@@ -17,7 +17,8 @@ jobs:
       run: |
         git fetch --tags
         echo version $(git tag | sort | tail -n 1)
-        echo "tag=$(echo git tag | sort | tail -n 1)" >> $GITHUB_OUTPUT
+        echo "tag=" >> $GITHUB_OUTPUT
+        echo "::set-output name=tag::$(echo git tag | sort | tail -n 1)"
         echo ${{ steps.filter.outputs.tag }}
 
     - name: Set up QEMU
