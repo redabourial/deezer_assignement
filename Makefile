@@ -18,7 +18,6 @@ frontend_lint:
 
 lint: backend_lint frontend_lint
 
-
 backend_lint_fix:
 	docker exec -it django black .
 	docker exec -it django isort .
