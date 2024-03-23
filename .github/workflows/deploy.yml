@@ -18,6 +18,7 @@ jobs:
         git fetch --tags
         echo version $(git tag | sort | tail -n 1)
         echo "tag=$(echo git tag | sort | tail -n 1)" >> $GITHUB_OUTPUT
+        echo ${{ steps.filter.outputs.tag }}
 
     - name: exit
       run: exit 1
