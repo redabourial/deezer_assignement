@@ -11,8 +11,6 @@ on:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-  
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +25,7 @@ jobs:
             repo,
             run_id: ${{ github.event.workflow_run.id }}
           });
+          console.log(workflow.status)
           return workflow.status;
     - name: Check Frontend Workflow Status
       id: frontend_status
@@ -39,6 +38,7 @@ jobs:
             repo,
             run_id: ${{ github.event.workflow_run.id }}
           });
+          console.log(workflow.status)
           return workflow.status;
     
     - name: Checkout code
