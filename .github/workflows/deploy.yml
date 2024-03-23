@@ -56,7 +56,6 @@ jobs:
         context: .
         platforms: linux/amd64,linux/arm64
         push: true
-        name: reda_bourial_deezer_assignement
         tags: |
-          reda_bourial_deezer_assignement:${{ steps.tag.outputs.tag }}
-          reda_bourial_deezer_assignement:latest
+          ${{ secrets.DOCKER_REPO }}/reda_bourial_deezer_assignement:${{ steps.tag.outputs.tag }}
+          ${{ secrets.DOCKER_REPO }}/reda_bourial_deezer_assignement:latest
