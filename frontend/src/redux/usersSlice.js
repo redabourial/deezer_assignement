@@ -12,7 +12,7 @@ export const registerUser = createAsyncThunk(
       const err = flatten(Object.values(resp.data));
       throw new Error(err);
     }
-    return { ...resp.data, Time_to_query: timeToRespond };
+    return { ...resp.data, time_to_query: timeToRespond };
   },
 );
 

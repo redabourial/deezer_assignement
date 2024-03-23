@@ -40,7 +40,7 @@ describe("registerUser", () => {
             requestStatus: "fulfilled",
           },
           payload: {
-            Time_to_query: expect.any(Number),
+            time_to_query: expect.any(Number),
             email: "test@example.com",
             name: "Test User",
             pk: 1,
