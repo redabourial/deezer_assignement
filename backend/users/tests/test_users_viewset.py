@@ -50,6 +50,17 @@ class UsersViewSetTestCase(TestCase):
         self.assertEqual(self.response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(User.objects.count(), 0)
 
+    def test_create_user_upper_case_email(self):
+        self.user_data = {
+            "username": "testuser",
+            "email": "TestUser@deezer.com",
+        }
+        self.response = self.client.post(
+            reverse("user-list-create"), self.user_data, format="json"
+        )
+        self.assertEqual(self.response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(User.objects.count(), 0)
+
     def test_create_invaliduser(self):
         self.response = self.client.post(reverse("user-list-create"), {}, format="json")
         self.assertEqual(self.response.status_code, status.HTTP_400_BAD_REQUEST)

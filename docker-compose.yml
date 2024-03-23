@@ -9,8 +9,6 @@ services:
     volumes:
       - ./backend:/usr/src/app
     environment:
-      - DJANGO_ALLOWED_HOSTS=localhost
-      - DJANGO_CORS_ALLOWED_ORIGINS=http://localhost
       - DJANGO_DEBUG=true
       - DJANGO_SECRET=secret
       - MYSQL_DATABASE=${MYSQL_DATABASE}

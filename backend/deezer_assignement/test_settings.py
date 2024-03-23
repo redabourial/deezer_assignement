@@ -7,3 +7,5 @@ DATABASES = {
         "NAME": ":memory:",
     }
 }
+
+LOGGING = {}
