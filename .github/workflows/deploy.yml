@@ -16,7 +16,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Check Backend Workflow Status
+      id: backend_status
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const workflow = await github.actions.getWorkflowRun({
+            owner,
+            repo,
+            run_id: ${{ github.event.workflow_run.id }}
+          });
+          return workflow.status;
+    - name: Check Frontend Workflow Status
+      id: frontend_status
+      uses: actions/github-script@v5
+      with:
+        script: |
+          const { owner, repo } = context.repo;
+          const workflow = await github.actions.getWorkflowRun({
+            owner,
+            repo,
+            run_id: ${{ github.event.workflow_run.id }}
+          });
+          return workflow.status;
+    
     - name: Checkout code
+      if: steps.backend_status.outputs.status == 'success' && steps.frontend_status.outputs.status == 'success'
       uses: actions/checkout@v4
 
     - name: Set up Node.js
