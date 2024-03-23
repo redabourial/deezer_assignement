@@ -24,4 +24,3 @@ frontend_lint_fix:
 
 lint_fix: backend_lint_fix frontend_lint_fix
 
-d
