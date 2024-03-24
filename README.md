@@ -85,7 +85,8 @@ Unit tests test the front and the back separatly.
 ### Coverage
 Unit tests will fail if the coverage is below 100%.
 ### Push to registry
-The docker image is built for amd64/arm64, versionned (by git tags) and pushed to docker.artiandunet.com.
+The docker image is built for amd64/arm64, versionned (by git tags) and pushed to docker.artiandunet.com.<br/>
+There is a [check](https://github.com/redabourial/deezer_assignement/blob/master/.github/workflows/push_build.yml#L35) to predict version conflict, it doesn't push if the version already exists in the registry.
 ## Deployement
 ### Pull the docker image
 ```
