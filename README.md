@@ -121,7 +121,7 @@ docker run                                                       \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-       hub.artisandunet.com/reda_bourial_deezer_assignement   \
+       hub.artisandunet.com/reda_bourial_deezer_assignement      \
        python manage.py check --deploy
 ```
 SESSION_COOKIE_SECURE is set to true make sure you set at least the X-Forwarded-Proto header in your nginx config.</br>
@@ -146,7 +146,7 @@ docker run                                                       \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-       hub.artisandunet.com/reda_bourial_deezer_assignement   \
+       hub.artisandunet.com/reda_bourial_deezer_assignement      \
        python manage.py migrate
 ```
 # Known issues
@@ -190,5 +190,5 @@ def fibonacci(x):
     return fib_x
 ```
 ### 8. SECURE_SSL_REDIRECT isn't set
-It is assumes nginx does redirection from http to https.<br/>
+It is assumed nginx does redirection from http to https.<br/>
 In this case setting SECURE_SSL_REDIRECT results in a redirection loop.
