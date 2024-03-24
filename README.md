@@ -84,6 +84,9 @@ Linting checks for code style and import order both for frontend and backend.
 Unit tests test the front and the back separatly. 
 ### Coverage
 Unit tests will fail if the coverage is below 100%.
+### E2E Tests
+Additional tests written with selenium in the [e2e folder](https://github.com/redabourial/deezer_assignement/tree/master/e2e).<br />
+Tests are run with firefox.
 ### Push to registry
 The docker image is built for amd64/arm64, versionned (by git tags) and pushed to hub.artisandunet.com.<br/>
 There is a [check](https://github.com/redabourial/deezer_assignement/blob/master/.github/workflows/push_build.yml#L35) to predict version conflict, it doesn't push if the version already exists in the registry.
