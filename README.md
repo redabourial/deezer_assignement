@@ -94,7 +94,7 @@ docker pull docker.artisandunet.com/reda_bourial_deezer_assignement:latest
 ### Deploying it
 Deployement assumes you already have a nginx reverse proxy for TLS termination and an accessible mysql database.
 The networking intricacies are left to you, the container will listen for incoming connections on port 8000. 
-You must set the following env variables.
+You must set the following env variables :
 | Variable                    | Description                    | Format                                    |
 |-----------------------------|--------------------------------|-------------------------------------------|
 | DJANGO_SECRET               | SECRET_KEY in django           | Random string                             |

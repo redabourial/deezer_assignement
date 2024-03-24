@@ -8,7 +8,7 @@ import { registerUser } from "/src/redux/usersSlice";
 import { MailOutlined, UserOutlined } from "@ant-design/icons";
 
 import "./styles.css";
-import 'animate.css';
+import "animate.css";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Home() {
     dispatch(registerUser(data))
       .unwrap()
       .then((newUser) => navigate(`/users/${newUser.pk}`))
-      .catch(() => { });
+      .catch(() => {});
   };
 
   return (

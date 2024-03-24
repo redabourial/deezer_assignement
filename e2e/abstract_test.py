@@ -1,11 +1,13 @@
+import os
+import time
 import unittest
+import uuid
+
 from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver import FirefoxOptions
-import time
-import uuid
-import os
+
 
 class E2ETest(unittest.TestCase):
 
@@ -18,6 +20,7 @@ class E2ETest(unittest.TestCase):
         options = FirefoxOptions()
         if os.getenv("HEADLESS_SELENIUM") == "true":
             options.add_argument("--headless")
+            options.binary("/usr/bin/firefox")
         self.driver = webdriver.Firefox(options)
         self.go_home()
 
@@ -30,7 +33,7 @@ class E2ETest(unittest.TestCase):
     @property
     def random_string(self):
         return str(uuid.uuid4())[:8]
-    
+
     @property
     def url(self):
         return self.driver.current_url
@@ -38,7 +41,7 @@ class E2ETest(unittest.TestCase):
     @property
     def uri(self):
         assert self.root_url in self.url
-        return self.url.replace(self.root_url,"") 
+        return self.url.replace(self.root_url, "")
 
     @property
     def body(self):
@@ -51,9 +54,9 @@ class E2ETest(unittest.TestCase):
     @property
     def text(self):
         return self.body.text
-    
-    def go_to(self,uri="/"):
-        self.driver.get(f"{self.root_url}"+uri)
+
+    def go_to(self, uri="/"):
+        self.driver.get(f"{self.root_url}" + uri)
         self.wait()
 
     def go_home(self):
@@ -64,13 +67,13 @@ class E2ETest(unittest.TestCase):
         self.driver.refresh()
         self.wait()
 
-    def assertArrayContains(self,array,element):
+    def assertArrayContains(self, array, element):
         if element not in array:
             raise AssertionError(f"Element '{element}' not found in the array.")
 
-    def assertArrayContainsSubset(self,array, subset):
+    def assertArrayContainsSubset(self, array, subset):
         for element in subset:
-            self.assertArrayContains(array,element)
+            self.assertArrayContains(array, element)
 
-    def assertPageContains(self,text):
+    def assertPageContains(self, text):
         assert text in self.text, f"{text} not found in webpage"

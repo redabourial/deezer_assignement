@@ -7,7 +7,7 @@ import { Card, Descriptions } from "antd";
 import { fetchUser } from "/src/redux/usersSlice";
 
 import "./styles.css";
-import 'animate.css';
+import "animate.css";
 
 export default function Profile() {
   const dispatch = useDispatch();
