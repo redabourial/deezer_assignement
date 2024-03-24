@@ -144,8 +144,8 @@ WHITENOISE_INDEX_FILE = True
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+CORS_ALLOWED_ORIGINS = (os.getenv("DJANGO_CORS_ALLOWED_ORIGINS") or "").split(",")
+ALLOWED_HOSTS = (os.getenv("DJANGO_ALLOWED_HOSTS") or "").split(",")
 
 AUTH_USER_MODEL = "users.user"
 
