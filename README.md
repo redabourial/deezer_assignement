@@ -57,7 +57,7 @@ make local_build_and_run
 ```
 Then go to [http://127.0.0.1:8000](http://127.0.0.1:8000).
 ## Run e2e tests
-This assumes you have a built and are running the build. 
+This assumes you have built and are running the build. 
 ```
 make e2e_tests
 ```
