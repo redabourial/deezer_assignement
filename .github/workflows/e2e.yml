@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - premain
 
 jobs:
   e2e:
