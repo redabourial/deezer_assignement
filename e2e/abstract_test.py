@@ -27,7 +27,7 @@ class E2ETest(unittest.TestCase):
     def tearDown(self):
         self.driver.quit()
 
-    def wait(self, delay=0.2):
+    def wait(self, delay=0.25):
         time.sleep(delay)
 
     @property
