@@ -11,12 +11,12 @@ from django.dispatch import receiver
 def validate_deezer_email(email):
     if email.endswith("@deezer.com") or email.endswith(".deezer.com"):
         return
-    raise ValidationError("Email must end in @deezer.com or @*.deezer.com")
+    raise ValidationError("Email must end in @deezer.com or @*.deezer.com.")
 
 
 def prohibit_upper_case_chars(email):
     if email.lower() != email:
-        raise ValidationError("Email must be lower case")
+        raise ValidationError("Email must be lower case.")
 
 
 class User(AbstractUser):
@@ -32,15 +32,31 @@ class User(AbstractUser):
 
 
 def fibonacci(x):
-    # Start with a state corresponding to fib(50)
-    fib_x = 12586269025
-    fib_x_minus_one = 7778742049
-    # Iterate until fib(x) is computed
-    for _ in range(x - 50):
-        temp = fib_x
-        fib_x = fib_x + fib_x_minus_one
-        fib_x_minus_one = temp
-    return fib_x
+    if x <= 0:
+        return 0
+    elif x == 1:
+        return 1
+
+    def matrix_multiply(A, B):
+        result = [[0, 0], [0, 0]]
+        for i in range(2):
+            for j in range(2):
+                for k in range(2):
+                    result[i][j] += A[i][k] * B[k][j]
+        return result
+
+    def matrix_power(A, n):
+        if n == 1:
+            return A
+        if n % 2 == 0:
+            half_power = matrix_power(A, n // 2)
+            return matrix_multiply(half_power, half_power)
+        half_power = matrix_power(A, (n - 1) // 2)
+        return matrix_multiply(matrix_multiply(half_power, half_power), A)
+
+    A = [[1, 1], [1, 0]]
+
+    return matrix_power(A, x - 1)[0][0]
 
 
 @receiver(post_save, sender=User)

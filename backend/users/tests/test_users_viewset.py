@@ -7,7 +7,7 @@ from users.models import User
 from users.serializers import UserSerializer
 
 
-class UsersViewSetTestCase(TestCase):
+class UsersViewSetTest(TestCase):
 
     def setUp(self):
         self.client = APIClient()

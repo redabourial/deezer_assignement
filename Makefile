@@ -48,13 +48,17 @@ local_build:
 local_run:
 	docker rm -f django vite || true
 	docker run -e DJANGO_SECRET=secret                              \
-	           -e DJANGO_CORS_ALLOWED_ORIGINS=http://127.0.0.1      \
+	           -e DJANGO_CORS_ALLOWED_ORIGINS=http://127.0.0.1:8000 \
 			   -e DJANGO_ALLOWED_HOSTS=127.0.0.1                    \
 			   -e MYSQL_HOST=127.0.0.1                              \
                -e MYSQL_DATABASE=$(MYSQL_DATABASE)                  \
                -e MYSQL_USER=$(MYSQL_USER)                          \
                -e MYSQL_PASSWORD=$(MYSQL_PASSWORD)                  \
 			   --network="host"                                     \
-			    deezer_assignement:nightly
+			    deezer_assignement:nightly                          \
+				&
 
 local_build_and_run: local_build local_run
+
+e2e_tests:
+	cd e2e && pytest -s .

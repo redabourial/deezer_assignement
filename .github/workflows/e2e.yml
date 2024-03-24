@@ -1,0 +1,78 @@
+name: e2e
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set environment variable
+      run: |
+        echo "DJANGO_SECRET=secret"                              >> $GITHUB_ENV
+        echo "DJANGO_CORS_ALLOWED_ORIGINS=http://127.0.0.1:8000" >> $GITHUB_ENV
+        echo "DJANGO_ALLOWED_HOSTS=127.0.0.1"                    >> $GITHUB_ENV
+        echo "MYSQL_HOST=127.0.0.1"                              >> $GITHUB_ENV
+        echo "MYSQL_DATABASE=${{secrets.MYSQL_DB}}"              >> $GITHUB_ENV
+        echo "MYSQL_USER=${{secrets.MYSQL_USER}}"                >> $GITHUB_ENV
+        echo "MYSQL_PASSWORD=${{secrets.MYSQL_PWD}}"             >> $GITHUB_ENV
+        echo "HEADLESS_SELENIUM=true"                            >> $GITHUB_ENV
+
+    - name: Setup mysql
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql database: ${{ secrets.MYSQL_DB }}
+        mysql user: ${{ secrets.MYSQL_USER }}
+        mysql password: ${{ secrets.MYSQL_PWD }}
+
+    - name: Setup Firefox
+      uses: browser-actions/setup-firefox@v1
+
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Django dependencies
+      working-directory: backend
+      run: pip install -r requirements.txt 
+    
+    - name: Run migrations
+      working-directory: backend
+      run: python manage.py migrate
+
+    - name: Install testing dependencies
+      working-directory: e2e
+      run: pip install -r requirements.txt 
+
+    - name: Install npm dependencies
+      working-directory: frontend
+      run: npm install
+
+    - name: Build frontend
+      working-directory: frontend
+      run: npm run build
+
+    - name: Copy frontend to django static folder
+      run: |
+        mkdir -p backend/static/
+        mv frontend/dist/* backend/static/
+
+    - name: Start django
+      working-directory: backend
+      run:  gunicorn deezer_assignement.wsgi & sleep 1
+
+    - name: Run e2e tests
+      working-directory: e2e
+      run: pytest -s .
