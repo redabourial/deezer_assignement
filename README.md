@@ -165,7 +165,7 @@ The [issue has been reported on github](https://github.com/ant-design/ant-design
 I'm could figure out how.
 ### 6. The workflows do not use caching
 I didn't have time to implement it.
-### 7. the fibonnaci computation is convoluted
+### 7. The fibonnaci computation is convoluted
 I choose to use the matrix exponentiation method for [computing fibonnaci](https://github.com/redabourial/deezer_assignement/blob/master/backend/users/models/user.py#L34). While not the most straightfoward method it is the fastest. My though is that specs change and you should always implement the fastest method at the cost of having to redo things.<br/>
 For the record it has the same speed (~5 iterations) as this implementation for x in [50,55]. 
 ```
