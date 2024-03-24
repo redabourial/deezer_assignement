@@ -1,5 +1,5 @@
 # Live version
-a live version can be found at [https://deezer.artisandunet.com](https://deezer.artisandunet.com).
+a live version can be found [here](https://deezer.artisandunet.com).
 # How to
 ## Setup dev environnement
 Please make sure you have docker, docker-compose and node installed.
@@ -109,28 +109,28 @@ You must set the following env variables.
 docker run                                                       \ 
        -e DJANGO_SECRET=$$$$$$$$$$$$$$$$$$$$$$$$$                \
        -e DJANGO_CORS_ALLOWED_ORIGINS=$$$$$$$$$$$$               \
-	   -e DJANGO_ALLOWED_HOSTS=$$$$$$$$$$$$$$$$$$$               \
-	   -e MYSQL_HOST=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
+       -e DJANGO_ALLOWED_HOSTS=$$$$$$$$$$$$$$$$$$$               \
+       -e MYSQL_HOST=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-	    docker.artisandunet.com/reda_bourial_deezer_assignement  \
-		python manage.py migrate
+          docker.artisandunet.com/reda_bourial_deezer_assignement\
+          python manage.py migrate
 ```
 # Known issues
-## The workflow for pushing to docker isn't compatible with act
+### The workflow for pushing to docker isn't compatible with act
 [act](https://github.com/nektos/act) just isn't compatible with QEMU's setup action.
-## The workflow for pushing to docker doesn't wait for other workflows to be successful
+### The workflow for pushing to docker doesn't wait for other workflows to be successful
 I'm could figure out how.
-## The workflows do not use caching
+### The workflows do not use caching
 I didn't have time to implement it.
-## Static files are served by django
+### Static files are served by django
 While not an issue by itself, i am aware that using a CDN is a more appropriate way of serving static files.
 But since whitenoise does compression and caching, the impact is minimal.
-## Source maps are added to the container
+### Source maps are added to the container
 Source maps are added to the static folder and served by django.
 A better way would be to filter source maps and store them as artifacts but that will not be done.
-## Antd source maps are broken
+### Antd source maps are broken
 When building the following errors will appear:
 ```
 node_modules/antd/es/card/index.js (1:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
