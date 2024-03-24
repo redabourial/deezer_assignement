@@ -132,6 +132,7 @@ I is also be recommended to set the following (compatible with nginx 1.19.8+ onl
 ```
 proxy_cookie_flags Set $cookie_name secure;
 ```
+An example configuration can be found in [the examples folder](https://github.com/redabourial/deezer_assignement/tree/master/examples).
 ### Running migrations
 ```
 docker run                                                       \
