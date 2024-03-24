@@ -1,0 +1,47 @@
+name: e2e
+
+on:
+  push:
+    branches:
+      - master
+      - premain
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Install Django dependencies
+      working-directory: backend
+      run: pip install -r requirements.txt 
+
+    - name: Install npm dependencies
+      working-directory: frontend
+      run: npm install
+
+    - name: Copy frontend to django static folder
+      run: |
+        mkdir -p backend/static/
+        mv frontend/dist/* backend/static/
+
+    - name: Start mysql
+      uses: mirromutth/mysql-action@v1.1
+      with:
+        mysql database: 'db'
+        mysql user: 'user'
+        mysql password: 'password'
+
+    
