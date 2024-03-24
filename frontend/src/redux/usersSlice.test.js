@@ -194,7 +194,6 @@ describe("extraReducers", () => {
       addCase: jest.fn().mockImplementation(() => builder),
     };
     state = {
-      error: null,
       loading: false,
       data: {},
     };
@@ -206,11 +205,11 @@ describe("extraReducers", () => {
       (c) => c[0].type === "users/createUser/pending",
     );
     pendingCallback(state);
-    expect(state.error).toBe(null);
     expect(state.loading).toBe(true);
   });
 
   it("registerUser.fulfilled", () => {
+    state = { ...state, loading: true };
     const [_, fulfilledCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/createUser/fulfilled",
     );
@@ -221,6 +220,7 @@ describe("extraReducers", () => {
   });
 
   it("registerUser.rejected", () => {
+    state = { ...state, loading: true };
     const [_, rejectedCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/createUser/rejected",
     );
@@ -233,11 +233,11 @@ describe("extraReducers", () => {
       (c) => c[0].type === "users/fetchUser/pending",
     );
     pendingCallback(state);
-    expect(state.error).toBe(null);
     expect(state.loading).toBe(true);
   });
 
   it("fetchUser.fulfilled", () => {
+    state = { ...state, loading: true };
     const [_, fulfilledCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/fetchUser/fulfilled",
     );
@@ -248,12 +248,11 @@ describe("extraReducers", () => {
   });
 
   it("fetchUser.rejected", () => {
+    state = { ...state, loading: true };
     const [_, rejectedCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/fetchUser/rejected",
     );
-    const error = { message: "Error message" };
-    rejectedCallback(state, { error });
+    rejectedCallback(state);
     expect(state.loading).toBe(false);
-    expect(state.error).toBe(error.message);
   });
 });

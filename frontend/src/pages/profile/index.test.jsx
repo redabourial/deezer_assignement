@@ -104,10 +104,11 @@ describe("Profile Component", () => {
   });
 
   it("displays error messages", async () => {
+    axios.get.mockRejectedValue(new Error("invalid userId"));
+
     store = mockStore({
       users: {
         data: {},
-        error: "invalid userId",
         loading: false,
       },
     });
@@ -122,14 +123,16 @@ describe("Profile Component", () => {
       </Provider>,
     );
 
-    expect(screen.getByText("invalid userId")).toBeInTheDocument();
+    expect(axios.get).toHaveBeenCalledWith("/api/users/3/");
+    await waitFor(() =>
+      expect(screen.getByText("invalid userId")).toBeInTheDocument(),
+    );
   });
 
   it("displays loading state while fetching user data", async () => {
     store = mockStore({
       users: {
         data: {},
-        error: null,
         loading: true,
       },
     });

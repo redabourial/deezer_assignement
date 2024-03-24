@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -15,26 +15,24 @@ export default function Profile() {
   const { userId } = useParams();
 
   const user = useSelector(({ users }) => users.data[userId]);
-  const error = useSelector(({ users }) => users.error);
   const loading = useSelector(({ users }) => users.loading);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (!user && !loading) {
-      dispatch(fetchUser(userId));
+      dispatch(fetchUser(userId))
+        .unwrap()
+        .catch((e) => setError(e));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (error) {
-    return <>{error}</>;
+    return <>{error.message}</>;
   }
 
-  if (loading) {
+  if (loading || !user) {
     return <>Loading...</>;
-  }
-
-  if (!user) {
-    return <>{error}</>;
   }
 
   return (
