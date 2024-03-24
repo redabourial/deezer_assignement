@@ -224,10 +224,8 @@ describe("extraReducers", () => {
     const [_, rejectedCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/createUser/rejected",
     );
-    const error = { message: "Error message" };
-    rejectedCallback(state, { error });
+    rejectedCallback(state);
     expect(state.loading).toBe(false);
-    expect(state.error).toBe(error.message);
   });
 
   it("fetchUser.pending", () => {

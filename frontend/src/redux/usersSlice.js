@@ -34,9 +34,8 @@ export const extraReducers = (builder) =>
       state.loading = false;
       state.data[payload.pk] = payload;
     })
-    .addCase(registerUser.rejected, (state, { error }) => {
+    .addCase(registerUser.rejected, (state) => {
       state.loading = false;
-      state.error = error.message;
     })
     .addCase(fetchUser.pending, (state) => {
       state.error = null;

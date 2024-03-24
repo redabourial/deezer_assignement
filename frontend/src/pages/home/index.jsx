@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export default function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const error = useSelector(({ users }) => users.error);
+  const [error, setError] = useState();
   const loading = useSelector(({ users }) => users.loading);
 
   const onFinish = (data) => {
@@ -22,7 +22,7 @@ export default function Home() {
     dispatch(registerUser(data))
       .unwrap()
       .then((newUser) => navigate(`/users/${newUser.pk}`))
-      .catch(() => {});
+      .catch((e) => setError(e));
   };
 
   return (
@@ -56,7 +56,7 @@ export default function Home() {
             <Alert
               message={
                 <>
-                  {error.split(",").map((e, i) => (
+                  {error.message.split(",").map((e, i) => (
                     <div key={i}>{e}</div>
                   ))}
                 </>

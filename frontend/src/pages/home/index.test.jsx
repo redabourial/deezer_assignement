@@ -197,10 +197,16 @@ describe("Home Component", () => {
   });
 
   it("Displays errors", async () => {
+    axios.post.mockResolvedValue({
+      status: 400,
+      data: {
+        somekey: ["Invalid something"],
+      },
+    });
+
     store = mockStore({
       users: {
         data: {},
-        error: "invalid something",
         loading: false,
       },
     });
@@ -213,7 +219,22 @@ describe("Home Component", () => {
       </Provider>,
     );
 
-    expect(screen.getByText("invalid something")).toBeInTheDocument();
+    await act(() => {
+      fireEvent.change(screen.getByPlaceholderText("Name"), {
+        target: {
+          value: "Test User",
+        },
+      });
+      fireEvent.change(screen.getByPlaceholderText("Email"), {
+        target: {
+          value: "test@example.com",
+        },
+      });
+      fireEvent.click(screen.getByText("Register"));
+    });
+
+    await waitFor(() => expect(axios.post).toHaveBeenCalled());
+    expect(screen.getByText("Invalid something")).toBeInTheDocument();
   });
 
   it("does nothing when loading", async () => {
