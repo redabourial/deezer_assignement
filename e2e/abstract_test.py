@@ -20,7 +20,7 @@ class E2ETest(unittest.TestCase):
         options = FirefoxOptions()
         if os.getenv("HEADLESS_SELENIUM") == "true":
             options.add_argument("--headless")
-            options.binary("/usr/bin/firefox")
+            options.binary_location = "/usr/bin/firefox"
         self.driver = webdriver.Firefox(options)
         self.go_home()
 

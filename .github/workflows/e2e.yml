@@ -33,9 +33,7 @@ jobs:
         mysql password: ${{ secrets.MYSQL_PWD }}
 
     - name: Setup Firefox
-      run: |
-        sudo apt update
-        sudo apt install firefox
+      uses: browser-actions/setup-firefox@v1
 
     - name: Install Python
       uses: actions/setup-python@v5
