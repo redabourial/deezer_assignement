@@ -61,6 +61,19 @@ This assumes you have built and are running the build.
 ```
 make e2e_tests
 ```
+## Run Workflows
+### Backend
+```
+act -j backend
+```
+### Frontend
+```
+act -j frontend
+```
+### E2E
+```
+act -j e2e
+```
 # Ressources
 ## Architecture
 ### Dependencies
