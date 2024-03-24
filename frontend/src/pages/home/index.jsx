@@ -46,7 +46,7 @@ export default function Home() {
               {
                 required: true,
                 type: "email",
-                message: "The input is not valid E-mail!",
+                message: "Please input your Email!",
               },
             ]}
           >
@@ -57,7 +57,7 @@ export default function Home() {
               message={
                 <>
                   {error.split(",").map((e, i) => (
-                    <div key={i}>{`${e}.`}</div>
+                    <div key={i}>{e}</div>
                   ))}
                 </>
               }

@@ -11,12 +11,12 @@ from django.dispatch import receiver
 def validate_deezer_email(email):
     if email.endswith("@deezer.com") or email.endswith(".deezer.com"):
         return
-    raise ValidationError("Email must end in @deezer.com or @*.deezer.com")
+    raise ValidationError("Email must end in @deezer.com or @*.deezer.com.")
 
 
 def prohibit_upper_case_chars(email):
     if email.lower() != email:
-        raise ValidationError("Email must be lower case")
+        raise ValidationError("Email must be lower case.")
 
 
 class User(AbstractUser):

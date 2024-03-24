@@ -55,6 +55,10 @@ local_run:
                -e MYSQL_USER=$(MYSQL_USER)                          \
                -e MYSQL_PASSWORD=$(MYSQL_PASSWORD)                  \
 			   --network="host"                                     \
-			    deezer_assignement:nightly
+			    deezer_assignement:nightly                          \
+				&
 
 local_build_and_run: local_build local_run
+
+e2e_tests:
+	cd e2e && pytest -s .

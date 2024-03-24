@@ -1,3 +1,7 @@
+# The workflow for pushing to docker doesn't wait for other workflows to be successful
+I'm could figure out how.
+# The workflows do not use caching
+I didn't have time to implement it.
 # Static files are served by django
 While not an issue by itself, i am aware that using a CDN is a more appropriate way of serving static files.
 But since whitenoise handles compression and caching, the impact is minimal.
