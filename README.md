@@ -85,12 +85,12 @@ Unit tests test the front and the back separatly.
 ### Coverage
 Unit tests will fail if the coverage is below 100%.
 ### Push to registry
-The docker image is built for amd64/arm64, versionned (by git tags) and pushed to docker.artiandunet.com.<br/>
+The docker image is built for amd64/arm64, versionned (by git tags) and pushed to hub.artisandunet.com.<br/>
 There is a [check](https://github.com/redabourial/deezer_assignement/blob/master/.github/workflows/push_build.yml#L35) to predict version conflict, it doesn't push if the version already exists in the registry.
 ## Deployement
 ### Pull the docker image
 ```
-docker pull docker.artisandunet.com/reda_bourial_deezer_assignement:latest
+docker pull hub.artisandunet.com/reda_bourial_deezer_assignement:latest
 ```
 ### Deploying it
 Deployement assumes you already have a nginx reverse proxy for TLS termination and an accessible mysql database.<br/>
@@ -118,7 +118,7 @@ docker run                                                       \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-       docker.artisandunet.com/reda_bourial_deezer_assignement   \
+       hub.artisandunet.com/reda_bourial_deezer_assignement   \
        python manage.py check --deploy
 ```
 SESSION_COOKIE_SECURE is set to true make sure you set at least the X-Forwarded-Proto header in your nginx config.</br>
@@ -128,6 +128,9 @@ proxy_set_header Host $host;
 proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
+```
+I could also be recommended to set the following (compatible with nginx 1.19.8+ only) :
+```
 proxy_cookie_flags Set $cookie_name secure;
 ```
 ### Running migrations
@@ -140,7 +143,7 @@ docker run                                                       \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-       docker.artisandunet.com/reda_bourial_deezer_assignement   \
+       hub.artisandunet.com/reda_bourial_deezer_assignement   \
        python manage.py migrate
 ```
 # Known issues

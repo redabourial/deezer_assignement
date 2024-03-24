@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+  deezer:
+    container_name: reda_bourial_deezer_assignement
+    image: hub.artisandunet.com/reda_bourial_deezer_assignement
+    environment:
+      - DJANGO_SECRET=<SOMETHING>
+      - DJANGO_CORS_ALLOWED_ORIGINS=https://deezer.artisandunet.com
+      - DJANGO_ALLOWED_HOSTS=deezer.artisandunet.com
+      - MYSQL_HOST=<SOME_HOST>
+      - MYSQL_DATABASE=<SOME_DB>
+      - MYSQL_USER=<SOME_USER>
+      - MYSQL_PASSWORD=<SOME_PW>
+      - GUNICORN_WORKERS=16
+
+
