@@ -31,6 +31,8 @@ SECRET_KEY = (
 
 assert SECRET_KEY, "secret key cannot be empty"
 
+SESSION_COOKIE_SECURE = not DEBUG
+
 # Application definition
 
 INSTALLED_APPS = [
