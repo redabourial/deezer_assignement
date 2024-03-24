@@ -103,6 +103,20 @@ You must set the following env variables :
 | MYSQL_DATABASE              | Mysql database to use          | String                                    |
 | MYSQL_USER                  | Mysql user to use              | String                                    |
 | MYSQL_PASSWORD              | Mysql password to use          | String                                    |
+
+You can check that everything is okay with your env variables using :
+```
+docker run                                                       \
+       -e DJANGO_SECRET=$$$$$$$$$$$$$$$$$$$$$$$$$                \
+       -e DJANGO_CORS_ALLOWED_ORIGINS=$$$$$$$$$$$$               \
+       -e DJANGO_ALLOWED_HOSTS=$$$$$$$$$$$$$$$$$$$               \
+       -e MYSQL_HOST=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
+       -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
+       -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
+       -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
+       docker.artisandunet.com/reda_bourial_deezer_assignement   \
+       python manage.py check --deploy
+```
 The networking intricacies are left to you, the container will listen for incoming connections on port 8000. </br>
 SESSION_COOKIE_SECURE is set to true make sure you set at least the X-Forwarded-Proto header in your nginx config.</br>
 Here is the recommended directives :
@@ -123,8 +137,8 @@ docker run                                                       \
        -e MYSQL_DATABASE=$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_USER=$$$$$$$$$$$$$$$$$$$$$$$$$$$$$               \
        -e MYSQL_PASSWORD=$$$$$$$$$$$$$$$$$$$$$$$$$               \
-          docker.artisandunet.com/reda_bourial_deezer_assignement\
-          python manage.py migrate
+       docker.artisandunet.com/reda_bourial_deezer_assignement   \
+       python manage.py migrate
 ```
 # Known issues
 ### 1. Static files are served by django

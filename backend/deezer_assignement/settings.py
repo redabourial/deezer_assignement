@@ -31,8 +31,6 @@ SECRET_KEY = (
 
 assert SECRET_KEY, "secret key cannot be empty"
 
-SESSION_COOKIE_SECURE = not DEBUG
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -91,6 +89,8 @@ DATABASES = {
         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
         "HOST": os.getenv("MYSQL_HOST"),
         "PORT": os.getenv("MYSQL_PORT") or "3306",
+        'CONN_MAX_AGE': 0 if DEBUG else 3600,
+        "CONN_HEALTH_CHECKS": True,
     },
 }
 
@@ -164,3 +164,11 @@ LOGGING = {
         "level": "WARNING",
     },
 }
+
+# Django deploy checklist
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS= not DEBUG
+SECURE_SSL_REDIRECT = not DEBUG
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_HSTS_PRELOAD = not DEBUG
