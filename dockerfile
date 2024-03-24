@@ -6,4 +6,8 @@ COPY backend ./
 
 RUN pip install -r requirements.txt
 
-CMD ["gunicorn", "deezer_assignement.wsgi"]
+COPY startup.sh ./
+
+RUN chmod +x startup.sh
+
+CMD ["bash","./startup.sh"]
