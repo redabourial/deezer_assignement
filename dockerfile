@@ -15,6 +15,6 @@ COPY startup.sh ./
 RUN chmod +x startup.sh
 
 # cleanup to make image smaller
-RUN apk del mysql-dev build-base
+RUN apk del build-base
 
 CMD ./startup.sh
