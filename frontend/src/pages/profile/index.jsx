@@ -7,6 +7,7 @@ import { Card, Descriptions } from "antd";
 import { fetchUser } from "/src/redux/usersSlice";
 
 import "./styles.css";
+import 'animate.css';
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="container">
+    <div className="container animate__animated animate__tada">
       <Card title="User Info">
         <Descriptions
           layout="vertical"

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.2",
+    "animate.css": "^4.1.1",
     "antd": "^5.15.3",
     "axios": "^1.6.8",
     "lcov-total": "^2.1.1",
