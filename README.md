@@ -125,11 +125,10 @@ SESSION_COOKIE_SECURE is set to true make sure you set at least the X-Forwarded-
 Here is the recommended directives :
 ```
 proxy_set_header Host $host;
-proxy_set_header X-Real-IP $remote_addr;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
 ```
-I could also be recommended to set the following (compatible with nginx 1.19.8+ only) :
+I is also be recommended to set the following (compatible with nginx 1.19.8+ only) :
 ```
 proxy_cookie_flags Set $cookie_name secure;
 ```
@@ -186,3 +185,6 @@ def fibonacci(x):
         fib_x_minus_one = temp
     return fib_x
 ```
+### 8. SECURE_SSL_REDIRECT isn't set
+It is assumes nginx does redirection from http to https.<br/>
+In this case setting SECURE_SSL_REDIRECT results in a redirection loop.

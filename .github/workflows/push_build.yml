@@ -16,8 +16,8 @@ jobs:
       id: tag
       run: |
         git fetch --tags
-        echo version $(git tag | sort | tail -n 1)
-        echo tag=$(git tag | sort | tail -n 1) >> "$GITHUB_OUTPUT"
+        echo version $(git tag | sort -V | tail -n 1)
+        echo tag=$(git tag | sort -V | tail -n 1) >> "$GITHUB_OUTPUT"
  
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
