@@ -32,10 +32,10 @@ class User(AbstractUser):
 
 
 def fibonacci(x):
-    if x <= 0:
-        return 0
-    elif x == 1:
-        return 1
+    assert x >= 0, f"Invalid input {x} in the Fibonacci function"
+
+    if x == 0 or x == 1:
+        return x
 
     def matrix_multiply(A, B):
         result = [[0, 0], [0, 0]]
