@@ -1,4 +1,8 @@
-FROM python:3.12
+FROM python:3.12-alpine
+
+RUN apk update
+RUN apk upgrade
+RUN apk add mysql-dev mysql-dev build-base
 
 WORKDIR /usr/src/app
 
@@ -10,4 +14,4 @@ COPY startup.sh ./
 
 RUN chmod +x startup.sh
 
-CMD ["bash","./startup.sh"]
+CMD ["sh","./startup.sh"]
