@@ -104,6 +104,9 @@ You must set the following env variables :
 | MYSQL_DATABASE              | Mysql database to use          | String                                    |
 | MYSQL_USER                  | Mysql user to use              | String                                    |
 | MYSQL_PASSWORD              | Mysql password to use          | String                                    |
+| GUNICORN_WORKERS            | Number of gunicorn work        | Integer (default: 10)                     |
+| GUNICORN_INTERFACE          | Interface to bind to           | IP address (default: 0.0.0.0)             |
+| GUNICORN_PORT               | Port to listen to              | Integer (default:8000)                    |
 
 You can check that everything is okay with your env variables using :
 ```
@@ -118,7 +121,6 @@ docker run                                                       \
        docker.artisandunet.com/reda_bourial_deezer_assignement   \
        python manage.py check --deploy
 ```
-The networking intricacies are left to you, the container will listen for incoming connections on port 8000. </br>
 SESSION_COOKIE_SECURE is set to true make sure you set at least the X-Forwarded-Proto header in your nginx config.</br>
 Here is the recommended directives :
 ```
