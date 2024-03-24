@@ -13,9 +13,9 @@ User->Frontend: Submit form
 User->Frontend: Click Submit Button
 Frontend->Frontend: Does some basic validation
 Frontend->Store: Check that no thunks are pending  
-alt No thunk is pending
+alt A thunk is pending
     Frontend->Frontend: Ignores submission
-else A thunk is pending
+else No thunk is pending
     Frontend->Thunk: Start an async thunk and a timer
     Thunk->Backend: Send User Creation Request (POST api/users/)
     Backend->Backend: Validate Email Domain and that email is lowercase
