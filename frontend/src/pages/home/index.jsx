@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   return (
-    <div className="container animate__animated animate__jackInTheBox">
+    <div className="container animate__animated animate__faster animate__jackInTheBox">
       <Card title={"Registration form"} className="card">
         <Form onFinish={onFinish}>
           <Form.Item
