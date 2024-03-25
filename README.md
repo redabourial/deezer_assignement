@@ -143,8 +143,6 @@ Here is the recommended directives :
 proxy_set_header Host $host;
 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 proxy_set_header X-Forwarded-Proto $scheme;
-proxy_set_header If-Modified-Since $http_if_modified_since;
-proxy_set_header If-None-Match $http_if_none_match;
 ```
 I is also be recommended to set the following (compatible with nginx 1.19.8+ only) :
 ```
