@@ -165,7 +165,7 @@ docker run                                                       \
 # Known issues
 ### 1. Static files are served by django
 While not an issue by itself, i am aware that using a CDN is a more appropriate way of serving static files.
-But since whitenoise does compression and caching, the impact is minimal.
+But since django does caching and nginx does the compression, the impact is minimal.
 ### 2. Source maps are added to the container
 Source maps are added to the static folder and served by django.
 A better way would be to filter source maps and store them as artifacts but that will not be done.
