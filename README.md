@@ -184,7 +184,7 @@ The [issue has been reported on github](https://github.com/ant-design/ant-design
 ### 4. The workflow for pushing to docker isn't compatible with act
 [act](https://github.com/nektos/act) just isn't compatible with QEMU's setup action.
 ### 5. The workflow for pushing to docker doesn't wait for other workflows to be successful
-I'm could figure out how.
+I couldn't figure out how to do it simply.
 ### 6. The workflows do not use caching
 I didn't have time to implement it.
 ### 7. The fibonnaci computation is convoluted
@@ -207,4 +207,4 @@ It is assumed nginx does redirection from http to https.<br/>
 In this case setting SECURE_SSL_REDIRECT results in a redirection loop.
 ### 9. Vite versionned files are not detected as immutable by default in whitenoise 
 Fixed [here](https://github.com/redabourial/deezer_assignement/blob/master/backend/deezer_assignement/settings.py#L141)<br/>
-This fix makes the entire STATIC_ROOT immutable, which should not be a problem with django-admin but might cause issues with other apps.  
+This fix makes the first level of STATIC_ROOT immutable, which means nothing but vite files are immutable, adjust if needed.  

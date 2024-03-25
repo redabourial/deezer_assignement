@@ -139,7 +139,8 @@ STATIC_INDEX_ROOT = BASE_DIR / "static"
 
 WHITENOISE_INDEX_FILE = True
 WHITENOISE_IMMUTABLE_FILE_TEST = (
-    lambda _, url: url.startswith(STATIC_URL) or url == "/favicon.ico"
+    lambda _, url: (url.startswith(STATIC_URL) and url.count("/") == 2)
+    or url == "/favicon.ico"
 )
 
 # Default primary key field type
