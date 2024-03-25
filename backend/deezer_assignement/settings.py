@@ -138,7 +138,9 @@ STATIC_ROOT = BASE_DIR / "static/assets"
 STATIC_INDEX_ROOT = BASE_DIR / "static"
 
 WHITENOISE_INDEX_FILE = True
-WHITENOISE_IMMUTABLE_FILE_TEST = lambda _, url: url.startswith(STATIC_URL)
+WHITENOISE_IMMUTABLE_FILE_TEST = (
+    lambda _, url: url.startswith(STATIC_URL) or url == "/favicon.ico"
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
