@@ -36,7 +36,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="container animate__animated animate__faster animate__tada">
+    <div className="container animate__animated animate__faster animate__bounceIn">
       <Card title="User Info">
         <Descriptions
           layout="vertical"
