@@ -132,7 +132,7 @@ STORAGES = {
     },
 }
 
-STATIC_URL = "assets/"
+STATIC_URL = "/assets/"
 MEDIA_URL = "/media/"
 STATIC_ROOT = BASE_DIR / "static/assets"
 STATIC_INDEX_ROOT = BASE_DIR / "static"
