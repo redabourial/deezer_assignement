@@ -1,20 +1,17 @@
 FROM python:3.12-alpine
 
-RUN apk update
-RUN apk upgrade
-RUN apk add mysql-dev build-base
-
 WORKDIR /usr/src/app
 
-COPY backend ./
+COPY backend/requirements.txt ./
 
-RUN pip install -r requirements.txt
+RUN apk add mysql-dev build-base    && \
+    pip install -r requirements.txt && \
+    apk del build-base
+
+COPY backend ./
 
 COPY startup.sh ./
 
 RUN chmod +x startup.sh
-
-# cleanup to make image smaller
-RUN apk del build-base
 
 CMD ./startup.sh
