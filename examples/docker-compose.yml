@@ -13,5 +13,4 @@ services:
       - MYSQL_USER=<SOME_USER>
       - MYSQL_PASSWORD=<SOME_PW>
       - GUNICORN_WORKERS=16
-
-
+    restart: unless-stopped
