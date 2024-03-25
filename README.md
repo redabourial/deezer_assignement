@@ -206,4 +206,5 @@ def fibonacci(x):
 It is assumed nginx does redirection from http to https.<br/>
 In this case setting SECURE_SSL_REDIRECT results in a redirection loop.
 ### 9. Vite versionned files are not detected as immutable by default in whitenoise 
-Fixed [here](https://github.com/redabourial/deezer_assignement/blob/master/backend/deezer_assignement/settings.py#L141)
+Fixed [here](https://github.com/redabourial/deezer_assignement/blob/master/backend/deezer_assignement/settings.py#L141)<br/>
+This fix makes the entire STATIC_ROOT immutable, which should not be a problem with django-admin but might cause issues with other apps.  
