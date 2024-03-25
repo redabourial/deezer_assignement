@@ -15,15 +15,16 @@ export default function Profile() {
   const { userId } = useParams();
 
   const user = useSelector(({ users }) => users.data[userId]);
-  const loading = useSelector(({ users }) => users.loading);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!user && !loading) {
-      dispatch(fetchUser(userId))
-        .unwrap()
-        .catch((e) => setError(e));
-    }
+    if (user || loading) return;
+    setLoading(true);
+    dispatch(fetchUser(userId))
+      .unwrap()
+      .catch((e) => setError(e))
+      .finally(() => setLoading(false));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { Alert, Button, Card, Form, Input } from "antd";
@@ -15,14 +15,16 @@ export default function Home() {
   const dispatch = useDispatch();
 
   const [error, setError] = useState();
-  const loading = useSelector(({ users }) => users.loading);
+  const [loading, setLoading] = useState(false);
 
   const onFinish = (data) => {
     if (loading) return;
+    setLoading(true);
     dispatch(registerUser(data))
       .unwrap()
       .then((newUser) => navigate(`/users/${newUser.pk}`))
-      .catch((e) => setError(e));
+      .catch((e) => setError(e))
+      .finally(() => setLoading(false));
   };
 
   return (

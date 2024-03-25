@@ -194,65 +194,26 @@ describe("extraReducers", () => {
       addCase: jest.fn().mockImplementation(() => builder),
     };
     state = {
-      loading: false,
       data: {},
     };
     extraReducers(builder);
   });
 
-  it("registerUser.pending", () => {
-    const [_, pendingCallback] = builder.addCase.mock.calls.find(
-      (c) => c[0].type === "users/createUser/pending",
-    );
-    pendingCallback(state);
-    expect(state.loading).toBe(true);
-  });
-
   it("registerUser.fulfilled", () => {
-    state = { ...state, loading: true };
     const [_, fulfilledCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/createUser/fulfilled",
     );
     const payload = { pk: 1, name: "r" };
     fulfilledCallback(state, { payload });
-    expect(state.loading).toBe(false);
     expect(state.data[payload.pk]).toEqual(payload);
   });
 
-  it("registerUser.rejected", () => {
-    state = { ...state, loading: true };
-    const [_, rejectedCallback] = builder.addCase.mock.calls.find(
-      (c) => c[0].type === "users/createUser/rejected",
-    );
-    rejectedCallback(state);
-    expect(state.loading).toBe(false);
-  });
-
-  it("fetchUser.pending", () => {
-    const [_, pendingCallback] = builder.addCase.mock.calls.find(
-      (c) => c[0].type === "users/fetchUser/pending",
-    );
-    pendingCallback(state);
-    expect(state.loading).toBe(true);
-  });
-
   it("fetchUser.fulfilled", () => {
-    state = { ...state, loading: true };
     const [_, fulfilledCallback] = builder.addCase.mock.calls.find(
       (c) => c[0].type === "users/fetchUser/fulfilled",
     );
     const payload = { pk: 1, name: "r" };
     fulfilledCallback(state, { payload });
-    expect(state.loading).toBe(false);
     expect(state.data[payload.pk]).toEqual(payload);
-  });
-
-  it("fetchUser.rejected", () => {
-    state = { ...state, loading: true };
-    const [_, rejectedCallback] = builder.addCase.mock.calls.find(
-      (c) => c[0].type === "users/fetchUser/rejected",
-    );
-    rejectedCallback(state);
-    expect(state.loading).toBe(false);
   });
 });

@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 
 import "@testing-library/jest-dom";
+import { setGlobal } from "/src/setupTests";
 import {
   act,
   fireEvent,
@@ -27,6 +28,7 @@ describe("Home Component", () => {
   let store;
   let navigate;
   beforeEach(() => {
+    setGlobal();
     store = mockStore({
       users: {
         data: {},
@@ -40,6 +42,7 @@ describe("Home Component", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it("renders without crashing", () => {
@@ -238,13 +241,18 @@ describe("Home Component", () => {
   });
 
   it("does nothing when loading", async () => {
-    store = mockStore({
-      users: {
-        data: {},
-        error: null,
-        loading: true,
+    const user = {
+      data: {
+        pk: 42,
+        username: "Test User",
+        email: "test@example.com",
       },
-    });
+      status: 200,
+    };
+    axios.post.mockReturnValue(
+      new Promise((r) => setTimeout(() => r(user), 200)),
+    );
+
     render(
       <Provider store={store}>
         <MemoryRouter>
@@ -267,7 +275,42 @@ describe("Home Component", () => {
       fireEvent.click(screen.getByText("Register"));
     });
 
-    expect(store.getActions()).toEqual([]);
-    expect(axios.post).toHaveBeenCalledTimes(0);
+    await act(async () => {
+      fireEvent.click(screen.getByText("Register"));
+      await new Promise((r) => setTimeout(r, 200));
+    });
+
+    expect(axios.post).toHaveBeenCalledTimes(1);
+    expect(store.getActions()).toMatchObject([
+      {
+        meta: {
+          arg: {
+            email: "test@example.com",
+            username: "Test User",
+          },
+          requestId: expect.any(String),
+          requestStatus: "pending",
+        },
+        payload: undefined,
+        type: "users/createUser/pending",
+      },
+      {
+        meta: {
+          arg: {
+            email: "test@example.com",
+            username: "Test User",
+          },
+          requestId: expect.any(String),
+          requestStatus: "fulfilled",
+        },
+        payload: {
+          email: "test@example.com",
+          pk: 42,
+          time_to_query: expect.any(Number),
+          username: "Test User",
+        },
+        type: "users/createUser/fulfilled",
+      },
+    ]);
   });
 });

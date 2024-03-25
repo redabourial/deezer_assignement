@@ -3,15 +3,15 @@ import { Provider } from "react-redux";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 import "@testing-library/jest-dom";
+import { setGlobal } from "/src/setupTests";
 import { render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import configureStore from "redux-mock-store";
+import { thunk } from "redux-thunk";
 
 import Profile from "./index";
 
 jest.mock("axios");
-
-import { thunk } from "redux-thunk";
 
 const mockStore = configureStore([thunk]);
 
@@ -19,6 +19,7 @@ describe("Profile Component", () => {
   let store;
 
   beforeEach(() => {
+    setGlobal();
     store = mockStore({
       users: {
         data: {
@@ -34,6 +35,7 @@ describe("Profile Component", () => {
 
   afterEach(() => {
     jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it("renders user profile information", async () => {
