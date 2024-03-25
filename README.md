@@ -205,3 +205,5 @@ def fibonacci(x):
 ### 8. SECURE_SSL_REDIRECT isn't set
 It is assumed nginx does redirection from http to https.<br/>
 In this case setting SECURE_SSL_REDIRECT results in a redirection loop.
+### 9. Vite versionned files are not detected as immutable by default in whitenoise 
+Fixed [here](https://github.com/redabourial/deezer_assignement/blob/master/backend/deezer_assignement/settings.py#L141)
