@@ -32,8 +32,12 @@ export default function Profile() {
     return <>{error.message}</>;
   }
 
-  if (loading || !user) {
+  if (loading) {
     return <>Loading...</>;
+  }
+
+  if (!user) {
+    return <>User not found</>;
   }
 
   return (

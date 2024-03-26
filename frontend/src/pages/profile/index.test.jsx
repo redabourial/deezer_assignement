@@ -108,7 +108,6 @@ describe("Profile Component", () => {
     store = mockStore({
       users: {
         data: {},
-        loading: false,
       },
     });
 
@@ -132,7 +131,6 @@ describe("Profile Component", () => {
     store = mockStore({
       users: {
         data: {},
-        loading: true,
       },
     });
 
@@ -148,6 +146,38 @@ describe("Profile Component", () => {
 
     await waitFor(() => {
       expect(screen.getByText("Loading...")).toBeInTheDocument();
+    });
+  });
+
+  it("displays user not found", async () => {
+    axios.get.mockResolvedValueOnce({
+      data: {
+        pk: 2,
+        username: "Another User",
+        email: "another@example.com",
+      },
+    });
+    store = mockStore({
+      users: {
+        data: {},
+      },
+    });
+
+    render(
+      <Provider store={store}>
+        <MemoryRouter initialEntries={["/users/3"]}>
+          <Routes>
+            <Route path="/users/:userId" element={<Profile />} />
+          </Routes>
+        </MemoryRouter>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText("Loading...")).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(screen.getByText("User not found")).toBeInTheDocument();
     });
   });
 });
