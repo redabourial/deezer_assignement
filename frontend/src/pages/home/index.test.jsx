@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 
 import "@testing-library/jest-dom";
-import { setGlobal } from "/src/setupTests";
 import {
   act,
   fireEvent,
@@ -28,7 +27,6 @@ describe("Home Component", () => {
   let store;
   let navigate;
   beforeEach(() => {
-    setGlobal();
     store = mockStore({
       users: {
         data: {},
