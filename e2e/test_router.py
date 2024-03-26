@@ -27,6 +27,8 @@ class RouterTest(E2ETest):
         self.assertEqual(self.text, "Page does not exist")
 
     def test_get_random_subsubsubpage(self):
-        self.go_to(f"/{self.random_string}/{self.random_string}/{self.random_string}/{self.random_string}")
+        self.go_to(
+            f"/{self.random_string}/{self.random_string}/{self.random_string}/{self.random_string}"
+        )
         self.assertEqual(self.title, "Deezer assignement")
         self.assertEqual(self.text, "Page does not exist")
