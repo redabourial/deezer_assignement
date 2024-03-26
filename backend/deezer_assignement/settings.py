@@ -148,8 +148,10 @@ WHITENOISE_IMMUTABLE_FILE_TEST = (
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "").split(",")
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+CORS_ALLOWED_ORIGINS = (
+    [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
+)
+ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
 
 AUTH_USER_MODEL = "users.user"
 
