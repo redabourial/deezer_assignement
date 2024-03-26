@@ -25,13 +25,13 @@ jobs:
     - name: Install Django dependencies
       run: pip install -r requirements.txt -r requirements.dev.txt
         
-    - name: lint
+    - name: Lint
       run: |
         black --check .
         isort -c .
 
-    - name: test
+    - name: Test
       run: DJANGO_DEBUG=true coverage run --rcfile=coverage.rc manage.py test --settings=deezer_assignement.test_settings
 
-    - name: coverage
+    - name: Coverage
       run: coverage report  --rcfile=coverage.rc  -m --fail-under=100
