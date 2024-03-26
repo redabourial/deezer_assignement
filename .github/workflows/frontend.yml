@@ -25,11 +25,11 @@ jobs:
     - name: Install npm dependencies
       run: npm install
 
-    - name: lint
+    - name: Lint
       run: npm run lint
 
-    - name: test
+    - name: Test
       run: npx jest
 
-    - name: coverage
+    - name: Coverage
       run: npx lcov-total coverage/lcov.info --gte=100
