@@ -88,7 +88,7 @@ DATABASES = {
         "USER": os.getenv("MYSQL_USER"),
         "PASSWORD": os.getenv("MYSQL_PASSWORD"),
         "HOST": os.getenv("MYSQL_HOST"),
-        "PORT": os.getenv("MYSQL_PORT") or "3306",
+        "PORT": os.getenv("MYSQL_PORT", "3306"),
         "CONN_MAX_AGE": 0 if DEBUG else 3600,
         "CONN_HEALTH_CHECKS": True,
     },
@@ -148,10 +148,8 @@ WHITENOISE_IMMUTABLE_FILE_TEST = (
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_ALLOWED_ORIGINS = (
-    [] if DEBUG else os.getenv("DJANGO_CORS_ALLOWED_ORIGINS").split(",")
-)
-ALLOWED_HOSTS = [] if DEBUG else os.getenv("DJANGO_ALLOWED_HOSTS").split(",")
+CORS_ALLOWED_ORIGINS = os.getenv("DJANGO_CORS_ALLOWED_ORIGINS", "").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 AUTH_USER_MODEL = "users.user"
 
