@@ -32,5 +32,4 @@ jobs:
       run: npx jest
 
     - name: coverage
-      run: npx lcov-total coverage/lcov.info | grep 100
-
+      run: npx lcov-total coverage/lcov.info --gte=100
