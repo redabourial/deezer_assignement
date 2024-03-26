@@ -39,7 +39,6 @@ describe("Home Component", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
     jest.resetAllMocks();
   });
 

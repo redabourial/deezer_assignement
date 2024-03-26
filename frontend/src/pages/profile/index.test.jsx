@@ -32,7 +32,6 @@ describe("Profile Component", () => {
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
     jest.resetAllMocks();
   });
 
